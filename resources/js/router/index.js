@@ -4,19 +4,26 @@ import ProductsPage from '../views/Admin/Products';
 import CategoriesPage from '../views/Admin/Categories';
 import ArchivePage from '../views/Admin/Archive';
 import LoginPage from '../views/Login';
+import RegisterPage from '../views/Register';
 
 const routerLink = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/login',
+            path: '/',
             name: 'Login',
             component: LoginPage
         },
         {
-            path: '/',
-            name: 'Home',
-            component: AdminHomepage
+            path: '/registeruser',
+            name: 'Register',
+            component: RegisterPage
+        },
+        {
+            path: '/admin/dashboard',
+            name: 'AdminHome',
+            component: AdminHomepage,
+          
         },
         {
             path: '/products',
@@ -36,5 +43,6 @@ const routerLink = createRouter({
 
     ]
 });
+
 
 export default routerLink

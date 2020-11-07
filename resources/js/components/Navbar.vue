@@ -5,10 +5,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarNav" v-if="username != ''">
+  <div class="collapse navbar-collapse" id="navbarNav" v-if="username === 'admin'">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <router-link to="/" class="nav-link"> Home <span class="sr-only">(current)</span></router-link>
+        <router-link to="/admin/dashboard" class="nav-link"> Home <span class="sr-only">(current)</span></router-link>
       </li>
       <li class="nav-item">
         <router-link to="/products" class="nav-link"> Products </router-link>
@@ -32,14 +32,15 @@
    <div class="collapse navbar-collapse" id="navbarNav" v-if="username == ''">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <router-link to="/" class="nav-link"> Home <span class="sr-only">(current)</span></router-link>
+        <router-link to="/" class="nav-link"> Login </router-link>
       </li>
-      <li class="nav-item">
-        <router-link to="/login" class="nav-link"> Login </router-link>
+       <li class="nav-item">
+        <router-link to="/registeruser" class="nav-link"> Register </router-link>
       </li>
+   
     </ul>
   </div>
-  {{ username }}
+
 </nav>
 </template>
 

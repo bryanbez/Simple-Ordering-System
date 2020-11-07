@@ -2,7 +2,7 @@
   <div class="container">
       <NavbarHeader></NavbarHeader>
       <router-view></router-view>
-
+      
       <br />
       <br />
   </div>

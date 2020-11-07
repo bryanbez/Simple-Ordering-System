@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '../router';
 
 const state = {
    loginMessage: '',
@@ -13,8 +14,16 @@ const actions = {
     async LoginAction({ commit, dispatch }, loginCredentials) {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('/login', loginCredentials).then(response => {
-                localStorage.setItem('username', JSON.stringify(response.data.username));
-                commit('SET_USERNAME', JSON.parse(localStorage.getItem('username')))
+                if (response.data.username != 'undefined') {
+                    localStorage.setItem('username', JSON.stringify(response.data.username));
+                    router.push('/admin/dashboard')
+                    commit('SET_USERNAME', JSON.parse(localStorage.getItem('username')))
+                }
+                else {
+                    this.LogoutAction()
+                    return 'Failed To Login. Try Again'
+                }
+              
             }).catch(error => {
                 commit('SET_MSG',  error.response.data.errors)
             });
@@ -24,6 +33,7 @@ const actions = {
     async LogoutAction({ commit, dispatch }) {
         axios.post('/logout').then(response => {
             localStorage.setItem('username', JSON.stringify(''));
+            router.push('/')
             dispatch('fetchUserName')
         }).catch(error => {
             commit('SET_MSG',  error.response.data.errors)
