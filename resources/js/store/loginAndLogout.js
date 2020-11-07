@@ -16,7 +16,12 @@ const actions = {
             axios.post('/login', loginCredentials).then(response => {
                 if (response.data.username != 'undefined') {
                     localStorage.setItem('username', JSON.stringify(response.data.username));
-                    router.push('/admin/dashboard')
+                    if (response.data.username === 'admin') {
+                        router.push('/admin/dashboard')
+                    }
+                    else {
+                        router.push({ name: 'UserHome' })
+                    }
                     commit('SET_USERNAME', JSON.parse(localStorage.getItem('username')))
                 }
                 else {

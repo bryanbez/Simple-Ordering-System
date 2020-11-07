@@ -6,7 +6,7 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarNav" v-if="username === 'admin'">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <router-link to="/admin/dashboard" class="nav-link"> Home <span class="sr-only">(current)</span></router-link>
       </li>
@@ -22,15 +22,31 @@
       <li class="nav-item">
         <router-link to="/archive" class="nav-link"> Archives </router-link>
       </li>
-      <li class="nav-item">
-           <a @click="logoutUser()" class="nav-link"> Logout <b>({{ username }})</b> </a>
-      </li>
-
     </ul>
+     <span class="navbar-text">
+           <a @click="logoutUser()" class="nav-link"> Logout <b>({{ username }})</b> </a>
+      </span>
+  </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav" v-if="username !== 'admin' && username !== ''">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <router-link to="/user/dashboard" class="nav-link"> Home <span class="sr-only">(current)</span></router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/productlist" class="nav-link"> Products </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/user/dashboard" class="nav-link"> Cart </router-link>
+      </li>
+    </ul>
+      <span class="navbar-text">
+           <a @click="logoutUser()" class="nav-link"> Logout <b>({{ username }})</b> </a>
+      </span>
   </div>
 
    <div class="collapse navbar-collapse" id="navbarNav" v-if="username == ''">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <router-link to="/" class="nav-link"> Login </router-link>
       </li>

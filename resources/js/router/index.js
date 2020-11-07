@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory  } from 'vue-router';
+import LoginPage from '../views/Login';
+import RegisterPage from '../views/Register';
 import AdminHomepage from '../views/Admin/Homepage';
 import ProductsPage from '../views/Admin/Products';
 import CategoriesPage from '../views/Admin/Categories';
 import ArchivePage from '../views/Admin/Archive';
-import LoginPage from '../views/Login';
-import RegisterPage from '../views/Register';
+import UserHomePage from '../views/User/Homepage';
+import ProductsUserPage from '../components/Products/ListProductsUser'
 
 const routerLink = createRouter({
     history: createWebHistory(),
@@ -12,7 +14,20 @@ const routerLink = createRouter({
         {
             path: '/',
             name: 'Login',
-            component: LoginPage
+            component: LoginPage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')) !== '') {
+                    if (JSON.parse(localStorage.getItem('username')) === 'admin') {
+                        next({ name: 'AdminHome'})
+                    }
+                    else {
+                        next({ name: 'UserHome'})
+                    }
+                }
+               else {
+                   next()
+               }
+            }
         },
         {
             path: '/registeruser',
@@ -23,23 +38,53 @@ const routerLink = createRouter({
             path: '/admin/dashboard',
             name: 'AdminHome',
             component: AdminHomepage,
-          
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({ name: 'Login' })
+                else next()
+            }
         },
         {
             path: '/products',
             name: 'Products',
-            component: ProductsPage
+            component: ProductsPage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({ name: 'Login' })
+                else next()
+            }
         },
         {
             path: '/categories',
             name: 'Categories',
-            component: CategoriesPage
+            component: CategoriesPage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({ name: 'Login' })
+                else next()
+            }
         },
         {
             path: '/archive',
             name: 'Archives',
             component: ArchivePage
-        }
+        },
+
+        {
+            path: '/user/dashboard',
+            name: 'UserHome',
+            component: UserHomePage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
+                else next()
+            } 
+        },
+        {
+            path: '/productlist',
+            name: 'ProductsUser',
+            component: ProductsUserPage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
+                else next()
+            }
+        },
 
     ]
 });

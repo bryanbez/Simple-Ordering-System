@@ -17,12 +17,12 @@ class Products extends Model
     {   
         if (isset($_GET['sort'])) {
             if ($_GET['sort'] == 'reset_sort') {
-                return Products::where('deleted_at', NULL)->paginate(4);
+                return Products::where('deleted_at', NULL)->paginate(10);
             }
-            return Products::where('deleted_at', NULL)->orderBy($_GET['sort'])->paginate(4);
+            return Products::where('deleted_at', NULL)->orderBy($_GET['sort'])->paginate(10);
         }
   
-        return Products::where('deleted_at', NULL)->paginate(4);
+        return Products::where('deleted_at', NULL)->paginate(10);
        
     }
     
