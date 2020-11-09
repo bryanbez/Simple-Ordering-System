@@ -7,8 +7,9 @@ import CategoriesPage from '../views/Admin/Categories';
 import ArchivePage from '../views/Admin/Archive';
 import UserHomePage from '../views/User/Homepage';
 import ProductsUserPage from '../components/Products/ListProductsUser'
+import ViewProduct from '../components/Products/ViewProduct';
 
-const routerLink = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -85,9 +86,21 @@ const routerLink = createRouter({
                 else next()
             }
         },
+        {
+            path: '/product/:product_id',
+            name: 'ViewProduct',
+            component: ViewProduct,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
+                else next()
+            }
+        },
+        // {
+        //     path: '*'
+        // }
 
     ]
 });
 
 
-export default routerLink
+export default router

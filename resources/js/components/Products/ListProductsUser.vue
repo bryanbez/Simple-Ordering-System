@@ -25,7 +25,8 @@
             <div class="card-body">
                 <h5 class="card-title"> {{ product.product_name }} </h5>
                 <p class="card-text"> {{ product.product_price }} pesos </p>
-                <a href="#" class="btn btn-primary">Add To Cart</a>
+                <router-link :to="{ name: 'ViewProduct', params: {product_id: product.product_id} }"> View More </router-link> 
+                <a href="#" class="btn btn-primary ml-2">Add To Cart</a>
             </div>
             </div>
         </div>
@@ -44,12 +45,10 @@
 <script>
 import { useStore } from 'vuex'
 import { ref, computed, onMounted } from 'vue'
-import ModalAddProduct from '../Products/ModalAddProduct';
-import ModalEditProduct from '../Products/ModalEditProduct';
+
 export default {
     components: {
-       ModalEditProduct,
-       ModalAddProduct
+ 
     },
     setup() {
         const storeModule = useStore();
@@ -58,10 +57,6 @@ export default {
         const sortBy = ref('');
         const searchItem = ref('');
 
-        function fetchSpecProduct(id) {
-            storeModule.dispatch('fetchSpecificProduct', id);
-            storeModule.dispatch('clearMessageBox')
-        }
         onMounted(() => {
             fetchProductsAndCategories()
             storeModule.dispatch('fetchCategories');
@@ -83,7 +78,6 @@ export default {
         return {
             products,
             fetchProductsAndCategories,
-            fetchSpecProduct,
             sortBy,
             searchItem,
             searchProduct
