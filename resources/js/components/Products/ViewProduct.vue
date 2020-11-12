@@ -1,33 +1,23 @@
 <template>
   <div>
-
       <div class="container">
-          <div class="row">
-              <div class="col col-sm-12 col-lg-3">
+          <div class="row mt-5">
+              <div class="col col-sm-12 col-md-6 col-lg-4">
                   <img :src="productToView.product_image" width="250" height="250" />
               </div>
-               <div class="col col-sm-12 col-lg-9">
-                   <div class="row">
-                       <div class="col col-lg-12">
-                           <h2> {{ productToView.product_name }} </h2>
-                       </div>
-                         <div class="col col-lg-12">
-                           <h3> ₱ {{ productToView.product_price }} </h3>
-                       </div>
-                   </div>
-                   <div class="row">
-                       <div class="col col-lg-6">
-                           <label for=""> Quantity </label>
-                           <input type="text" class="form-control" @keyup="calculateTotalPrice(productToView.product_price, productToView.product_id)" v-model="txtQuantity">
-                            <h3> Total Price: {{ totalPriceInput }} </h3>
-                       </div>
-                       <div class="col col-lg-6">
-                           <p></p>
-                           <button class="btn btn-primary" @click="addToCart(productToView.product_id)"> Add To Cart  </button>
-                       </div>
-                   </div>
+               <div class="col col-sm-12 col-md-6 col-lg-8">
+                    <h2> {{ productToView.product_name }} </h2>
+                    <hr />
+                    <h3> ₱ {{ productToView.product_price }} </h3>
+                    <br />
+                    <label for=""> Quantity </label>
+                    <input type="text" class="form-control" @keyup="calculateTotalPrice(productToView.product_price, productToView.product_id)" v-model="txtQuantity">
+                    <hr />
+                    <h3> Total Price: {{ totalPriceInput }} </h3>
+                    <hr />
+                    <button class="btn btn-primary" @click="addToCart(productToView.product_id)"> Add To Cart  </button>
               </div>
-             
+
           </div>
       </div>
       
@@ -72,6 +62,7 @@ export default {
         const totalPriceInput = ref('')
         const productIdToCheckout = ref('')
         const productToView = computed(() => storeModule.state.products.specificProduct)
+        const user_id = computed(() => storeModule.state.loginAndlogout.loginUsernameID)
 
         function calculateTotalPrice(price, id) {
             productIdToCheckout.value = id
@@ -80,11 +71,12 @@ export default {
 
         function addToCart() {
             const cartProduct = ref({
+                'user_id': JSON.parse(localStorage.getItem('user_id')),
                 'product_id': productIdToCheckout.value,
                 'quantity': txtQuantity.value,
                 'total_price': totalPriceInput.value
             })
-            console.log(cartProduct)
+            storeModule.dispatch('addToCartAction', cartProduct.value)
         }
 
         onMounted(() => {
@@ -97,8 +89,7 @@ export default {
             totalPriceInput,
             txtQuantity,
             calculateTotalPrice,
-            addToCart
- 
+            addToCart,
         }
     }
 }
@@ -106,11 +97,9 @@ export default {
 
 <style>
 .container {
-    margin-bottom: 2em;
+
     background-color: rgb(236, 234, 234);
 }
-.row {
-    margin: 2em
-}
+
 
 </style>

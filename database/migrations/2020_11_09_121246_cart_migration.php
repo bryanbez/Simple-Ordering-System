@@ -19,6 +19,7 @@ class CartMigration extends Migration
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('quantity');
             $table->double('total_price');
+            $table->timestamps();
         });
     }
 

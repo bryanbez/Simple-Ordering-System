@@ -46,6 +46,7 @@ class LoginController extends Controller
     {
         return response([
             'username' => $user->name,
+            'user_id' => $user->id
         ]);
     }
 }

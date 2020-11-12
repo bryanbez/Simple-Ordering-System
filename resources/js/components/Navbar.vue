@@ -37,7 +37,7 @@
         <router-link to="/productlist" class="nav-link"> Products </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/user/dashboard" class="nav-link"> Cart </router-link>
+        <router-link to="/user/dashboard" class="nav-link"> Cart ({{ cartCount }}) </router-link>
       </li>
     </ul>
       <span class="navbar-text">
@@ -68,9 +68,11 @@ export default {
 
       const storeModule = useStore();
       const username = computed(() => storeModule.state.loginAndlogout.loginUsername);
+      const cartCount = computed(() => storeModule.state.cart.cartCount);
 
        onMounted(() => {
             storeModule.dispatch('fetchUserName');
+            storeModule.dispatch('getCartItems');
         });
 
       function logoutUser() {
@@ -79,7 +81,8 @@ export default {
 
       return {
         logoutUser,
-        username
+        username,
+        cartCount
       }
   }
 }

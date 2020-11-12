@@ -11783,8 +11783,10 @@ __webpack_require__.r(__webpack_exports__);
   setup() {
     const storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["useStore"])();
     const username = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.loginAndlogout.loginUsername);
+    const cartCount = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.cart.cartCount);
     Object(vue__WEBPACK_IMPORTED_MODULE_1__["onMounted"])(() => {
       storeModule.dispatch('fetchUserName');
+      storeModule.dispatch('getCartItems');
     });
 
     function logoutUser() {
@@ -11793,7 +11795,8 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       logoutUser,
-      username
+      username,
+      cartCount
     };
   }
 
@@ -12058,6 +12061,7 @@ __webpack_require__.r(__webpack_exports__);
     const totalPriceInput = Object(vue__WEBPACK_IMPORTED_MODULE_2__["ref"])('');
     const productIdToCheckout = Object(vue__WEBPACK_IMPORTED_MODULE_2__["ref"])('');
     const productToView = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.products.specificProduct);
+    const user_id = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.loginAndlogout.loginUsernameID);
 
     function calculateTotalPrice(price, id) {
       productIdToCheckout.value = id;
@@ -12066,11 +12070,12 @@ __webpack_require__.r(__webpack_exports__);
 
     function addToCart() {
       const cartProduct = Object(vue__WEBPACK_IMPORTED_MODULE_2__["ref"])({
+        'user_id': JSON.parse(localStorage.getItem('user_id')),
         'product_id': productIdToCheckout.value,
         'quantity': txtQuantity.value,
         'total_price': totalPriceInput.value
       });
-      console.log(cartProduct);
+      storeModule.dispatch('addToCartAction', cartProduct.value);
     }
 
     Object(vue__WEBPACK_IMPORTED_MODULE_2__["onMounted"])(() => {
@@ -12681,10 +12686,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\"}":
-/*!****************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup"} ***!
-  \****************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\",\"cartCount\":\"setup\"}":
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup","cartCount":"setup"} ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12797,34 +12802,31 @@ const _hoisted_25 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 const _hoisted_26 = {
   class: "nav-item"
 };
-
-const _hoisted_27 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Cart ");
-
-const _hoisted_28 = {
+const _hoisted_27 = {
   class: "navbar-text"
 };
 
-const _hoisted_29 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Logout ");
+const _hoisted_28 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Logout ");
 
-const _hoisted_30 = {
+const _hoisted_29 = {
   key: 2,
   class: "collapse navbar-collapse",
   id: "navbarNav"
 };
-const _hoisted_31 = {
+const _hoisted_30 = {
   class: "navbar-nav mr-auto"
 };
-const _hoisted_32 = {
+const _hoisted_31 = {
   class: "nav-item active"
 };
 
-const _hoisted_33 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Login ");
+const _hoisted_32 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Login ");
 
-const _hoisted_34 = {
+const _hoisted_33 = {
   class: "nav-item"
 };
 
-const _hoisted_35 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Register ");
+const _hoisted_34 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Register ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
@@ -12880,24 +12882,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     to: "/user/dashboard",
     class: "nav-link"
   }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_27]),
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Cart (" + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.cartCount) + ") ", 1
+    /* TEXT */
+    )]),
     _: 1
-  })])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("a", {
+  })])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("a", {
     onClick: _cache[2] || (_cache[2] = $event => $setup.logoutUser()),
     class: "nav-link"
-  }, [_hoisted_29, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("b", null, "(" + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.username) + ")", 1
+  }, [_hoisted_28, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("b", null, "(" + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.username) + ")", 1
   /* TEXT */
-  )])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true), $setup.username == '' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_30, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("ul", _hoisted_31, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_32, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+  )])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true), $setup.username == '' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_29, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("ul", _hoisted_30, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_31, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
     to: "/",
     class: "nav-link"
   }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_33]),
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_32]),
     _: 1
-  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_34, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("li", _hoisted_33, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
     to: "/registeruser",
     class: "nav-link"
   }, {
-    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_35]),
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_34]),
     _: 1
   })])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true)]);
 }
@@ -13541,68 +13545,61 @@ const _hoisted_1 = {
   class: "container"
 };
 const _hoisted_2 = {
-  class: "row"
+  class: "row mt-5"
 };
 const _hoisted_3 = {
-  class: "col col-sm-12 col-lg-3"
+  class: "col col-sm-12 col-md-6 col-lg-4"
 };
 const _hoisted_4 = {
-  class: "col col-sm-12 col-lg-9"
-};
-const _hoisted_5 = {
-  class: "row"
-};
-const _hoisted_6 = {
-  class: "col col-lg-12"
-};
-const _hoisted_7 = {
-  class: "col col-lg-12"
-};
-const _hoisted_8 = {
-  class: "row"
-};
-const _hoisted_9 = {
-  class: "col col-lg-6"
+  class: "col col-sm-12 col-md-6 col-lg-8"
 };
 
-const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("br", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Quantity ", -1
 /* HOISTED */
 );
 
-const _hoisted_11 = {
-  class: "col col-lg-6"
-};
-
-const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, null, -1
+const _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
 /* HOISTED */
 );
 
-const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_11 = {
+  class: "container"
+};
+const _hoisted_12 = {
+  class: "row"
+};
+
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h4", null, " Product Description ", -1
 /* HOISTED */
 );
 
 const _hoisted_14 = {
-  class: "container"
-};
-const _hoisted_15 = {
-  class: "row"
-};
-
-const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h4", null, " Product Description ", -1
-/* HOISTED */
-);
-
-const _hoisted_17 = {
   class: "col col-lg-12"
 };
 
-const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
 /* HOISTED */
 );
 
-const _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "container"
 }, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "row"
@@ -13617,25 +13614,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     height: "250"
   }, null, 8
   /* PROPS */
-  , ["src"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h2", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_name), 1
+  , ["src"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h2", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_name), 1
   /* TEXT */
-  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_price), 1
+  ), _hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_price), 1
   /* TEXT */
-  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_9, [_hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), _hoisted_6, _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     onKeyup: _cache[1] || (_cache[1] = $event => $setup.calculateTotalPrice($setup.productToView.product_price, $setup.productToView.product_id)),
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.txtQuantity = $event)
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.txtQuantity]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Total Price: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.totalPriceInput), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.txtQuantity]]), _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Total Price: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.totalPriceInput), 1
   /* TEXT */
-  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [_hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  ), _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
     class: "btn btn-primary",
     onClick: _cache[3] || (_cache[3] = $event => $setup.addToCart($setup.productToView.product_id))
-  }, " Add To Cart ")])])])])]), _hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_14, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_15, [_hoisted_16, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_17, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_desc), 1
+  }, " Add To Cart ")])])]), _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_12, [_hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_14, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_desc), 1
   /* TEXT */
-  )])])]), _hoisted_18, _hoisted_19]);
+  )])])]), _hoisted_15, _hoisted_16]);
 }
 
 /***/ }),
@@ -18626,7 +18623,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.container {\r\n    margin-bottom: 2em;\r\n    background-color: rgb(236, 234, 234);\n}\n.row {\r\n    margin: 2em\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.container {\r\n\r\n    background-color: rgb(236, 234, 234);\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -55605,7 +55602,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup"} */ "./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\"}");
+/* harmony import */ var _Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup_cartCount_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup","cartCount":"setup"} */ "./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\",\"cartCount\":\"setup\"}");
 /* harmony import */ var _Navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Navbar.vue?vue&type=script&lang=js */ "./resources/js/components/Navbar.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _Navbar_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Navbar.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Navbar.vue?vue&type=style&index=0&lang=css");
 
@@ -55613,7 +55610,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_Navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_Navbar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup_cartCount_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -55656,17 +55653,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\"}":
-/*!*****************************************************************************************************************************!*\
-  !*** ./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup"} ***!
-  \*****************************************************************************************************************************/
+/***/ "./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\",\"cartCount\":\"setup\"}":
+/*!*************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup","cartCount":"setup"} ***!
+  \*************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--26-0!./Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup_cartCount_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib!../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../node_modules/vue-loader/dist??ref--26-0!./Navbar.vue?vue&type=template&id=6dde423b&bindings={"logoutUser":"setup","username":"setup","cartCount":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&bindings={\"logoutUser\":\"setup\",\"username\":\"setup\",\"cartCount\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Navbar_vue_vue_type_template_id_6dde423b_bindings_logoutUser_setup_username_setup_cartCount_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -56523,6 +56520,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_archives__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/archives */ "./resources/js/store/admin/archives.js");
 /* harmony import */ var _loginAndLogout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./loginAndLogout */ "./resources/js/store/loginAndLogout.js");
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./register */ "./resources/js/store/register.js");
+/* harmony import */ var _user_cart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./user/cart */ "./resources/js/store/user/cart.js");
+
 
 
 
@@ -56535,7 +56534,8 @@ __webpack_require__.r(__webpack_exports__);
     'categories': _admin_categories__WEBPACK_IMPORTED_MODULE_2__["default"],
     'archives': _admin_archives__WEBPACK_IMPORTED_MODULE_3__["default"],
     'loginAndlogout': _loginAndLogout__WEBPACK_IMPORTED_MODULE_4__["default"],
-    'register': _register__WEBPACK_IMPORTED_MODULE_5__["default"]
+    'register': _register__WEBPACK_IMPORTED_MODULE_5__["default"],
+    'cart': _user_cart__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 }));
 
@@ -56557,7 +56557,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const state = {
   loginMessage: '',
-  loginUsername: ''
+  loginUsername: '',
+  loginUsernameID: ''
 };
 const getters = {};
 const actions = {
@@ -56569,6 +56570,7 @@ const actions = {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', loginCredentials).then(response => {
         if (response.data.username != 'undefined') {
           localStorage.setItem('username', JSON.stringify(response.data.username));
+          localStorage.setItem('user_id', JSON.stringify(response.data.user_id));
 
           if (response.data.username === 'admin') {
             _router__WEBPACK_IMPORTED_MODULE_1__["default"].push('/admin/dashboard');
@@ -56579,6 +56581,7 @@ const actions = {
           }
 
           commit('SET_USERNAME', JSON.parse(localStorage.getItem('username')));
+          commit('SET_USERNAME_ID', JSON.parse(localStorage.getItem('user_id')));
         } else {
           this.LogoutAction();
           return 'Failed To Login. Try Again';
@@ -56595,8 +56598,8 @@ const actions = {
   }) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/logout').then(response => {
       localStorage.setItem('username', JSON.stringify(''));
-      _router__WEBPACK_IMPORTED_MODULE_1__["default"].push('/');
-      dispatch('fetchUserName');
+      localStorage.setItem('user_id', JSON.stringify(''));
+      _router__WEBPACK_IMPORTED_MODULE_1__["default"].push('/'); //dispatch('fetchUserName')
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
     });
@@ -56611,7 +56614,8 @@ const actions = {
 };
 const mutations = {
   SET_MSG: (state, response) => state.loginMessage = response,
-  SET_USERNAME: (state, response) => state.loginUsername = response
+  SET_USERNAME: (state, response) => state.loginUsername = response,
+  SET_USERNAME_ID: (state, response) => state.loginUsernameID = response
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,
@@ -56656,6 +56660,62 @@ const actions = {
 };
 const mutations = {
   SET_ERROR_MSG: (state, err) => state.errorOnInputMessage = err
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state,
+  getters,
+  actions,
+  mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/user/cart.js":
+/*!*****************************************!*\
+  !*** ./resources/js/store/user/cart.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+const state = {
+  cartMessage: '',
+  errorResponse: '',
+  cartCount: ''
+};
+const getters = {};
+const actions = {
+  async addToCartAction({
+    commit,
+    dispatch
+  }, cartInfo) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`http://127.0.0.1:8000/api/cart/`, cartInfo).then(response => {
+      dispatch('getCartItems');
+      commit('CART_MESSAGE', response.data);
+    }).catch(error => {
+      commit('SET_MSG', error.response.data.errors);
+    });
+  },
+
+  async getCartItems({
+    commit
+  }) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/cart/count/${JSON.parse(localStorage.getItem('user_id'))}`).then(response => {
+      commit('CART_COUNT', response.data);
+    }).catch(error => {
+      commit('SET_MSG', error.response.data.errors);
+    });
+  }
+
+};
+const mutations = {
+  CART_MESSAGE: (state, response) => state.cartMessage = response,
+  SET_MSG: (state, response) => state.errorResponse = response,
+  CART_COUNT: (state, response) => state.cartCount = response
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,
