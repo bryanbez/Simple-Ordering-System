@@ -52,6 +52,10 @@ class CartController extends Controller
         return response()->json($this->cart->getCartInfo($id));
     }
 
+    public function itemInfo($cart_id) {
+        return response()->json($this->cart->itemInfo($cart_id));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

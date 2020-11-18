@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Admin\Products;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
@@ -10,7 +11,7 @@ class Cart extends Model
     protected $table = 'tblcart';
 
     public function getCartInfo($customer_id) {
-        return Cart::where('customer_id', $customer_id)->get();
+        return Cart::where('customer_id', $customer_id)->with('products')->get();
     }
 
     public function cartCount($customer_id) {
@@ -32,4 +33,15 @@ class Cart extends Model
             return 'Failed Add to Cart Item' + $e;
         }
     }
+
+    public function itemInfo($cart_id) {
+
+        return Cart::where('cart_id', $cart_id)->with('products')->firstOrFail();
+    }
+
+    public function products() {
+        return $this->belongsTo(Products::class, 'product_id', 'product_id');    
+    }
+
+
 }

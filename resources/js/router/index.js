@@ -8,6 +8,7 @@ import ArchivePage from '../views/Admin/Archive';
 import UserHomePage from '../views/User/Homepage';
 import ProductsUserPage from '../components/Products/ListProductsUser'
 import ViewProduct from '../components/Products/ViewProduct';
+import CartPage from '../components/Cart/CartPage';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -90,6 +91,15 @@ const router = createRouter({
             path: '/product/:product_id',
             name: 'ViewProduct',
             component: ViewProduct,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
+                else next()
+            }
+        },
+        {
+            path: '/cart',
+            name: 'CartPage',
+            component: CartPage,
             beforeEnter: (to, from, next) => {
                 if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
                 else next()

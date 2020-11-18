@@ -26,6 +26,7 @@ Route::resource('category', 'Admin\CategoriesCtrl');
 Route::resource('cart', 'User\CartController');
 
 Route::get('cart/count/{id}', 'User\CartController@cartCount');
+Route::get('cart/info/{cart_id}', 'User\CartController@itemInfo');
 
 Route::get('archive/products', 'Admin\ArchiveCtrl@fetchArchivedProducts');
 Route::get('archive/categories', 'Admin\ArchiveCtrl@fetchArchivedCategory');

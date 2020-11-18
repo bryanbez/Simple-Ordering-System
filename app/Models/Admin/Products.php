@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\User\Cart;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -10,7 +11,7 @@ use DB;
 class Products extends Model
 {
     protected $guarded = '';
-    protected $table = 'tbl_products';
+    protected $table = 'tbl_product';
     use SoftDeletes;
 
     public function index()
@@ -98,13 +99,12 @@ class Products extends Model
             $product->product_type = $request->product_type;
             $product->product_desc = $request->product_desc;
             $product->product_price = (double) $request->product_price;
-            $product->deleted_at = null;
             $product->save();
 
             return 'Product Saved';
         }
         catch(\Exception $e) {
-            return 'Product Failed to Save' + $e;
+            return 'Product Failed to Save'. $e->getMessage();
         }
     }
 
@@ -135,4 +135,10 @@ class Products extends Model
             return $filename;
         }
     }
+
+    public function cart() {
+        return $this->hasOne(Cart::class, 'cart_id', 'product_id');    
+    }
 }
+
+// $cart = App\Models\User\Cart::first()
