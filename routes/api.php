@@ -27,6 +27,8 @@ Route::resource('cart', 'User\CartController');
 
 Route::get('cart/count/{id}', 'User\CartController@cartCount');
 Route::get('cart/info/{cart_id}', 'User\CartController@itemInfo');
+Route::put('cart/info/{cart_id}', 'User\CartController@changeQuantity');
+
 
 Route::get('archive/products', 'Admin\ArchiveCtrl@fetchArchivedProducts');
 Route::get('archive/categories', 'Admin\ArchiveCtrl@fetchArchivedCategory');

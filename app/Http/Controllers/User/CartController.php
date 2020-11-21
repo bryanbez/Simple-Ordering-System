@@ -94,4 +94,8 @@ class CartController extends Controller
 
         return response()->json($this->cart->cartCount($customer_id));
     }
+
+    public function changeQuantity(Request $cartInfo) {
+        return response()->json($this->cart->changeQtyCart($cartInfo));
+    }
 }

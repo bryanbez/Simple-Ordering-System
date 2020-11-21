@@ -43,5 +43,18 @@ class Cart extends Model
         return $this->belongsTo(Products::class, 'product_id', 'product_id');    
     }
 
+    public function changeQtyCart($cartInfo) {
+        try {
+            Cart::where('cart_id', $cartInfo->cart_id)->update([
+                'quantity' => $cartInfo->quantity,
+                'total_price' => $cartInfo->total_price,
+            ]);
+            return 'Cart Updated! ';
+        }
+        catch(\Exception $e) {
+            return 'Cart Quantity Failed to Update' + $e->getMessage();
+        }
+    }
+
 
 }

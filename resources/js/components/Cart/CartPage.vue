@@ -41,6 +41,7 @@ export default {
 
         function showQuantityModel(cart_id) {
             storeModule.dispatch('getSpecificCartItemInfo', cart_id)
+            storeModule.dispatch('clearCartMessage')
         }
 
         onMounted(() => {

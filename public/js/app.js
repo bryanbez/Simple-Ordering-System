@@ -11661,6 +11661,7 @@ __webpack_require__.r(__webpack_exports__);
 
     function showQuantityModel(cart_id) {
       storeModule.dispatch('getSpecificCartItemInfo', cart_id);
+      storeModule.dispatch('clearCartMessage');
     }
 
     Object(vue__WEBPACK_IMPORTED_MODULE_2__["onMounted"])(() => {
@@ -11695,15 +11696,26 @@ __webpack_require__.r(__webpack_exports__);
     const storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["useStore"])();
     const cartInfo = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.cart.specificCartInfo);
     const errorMessage = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.cart.errorResponse);
+    const cartMessage = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.cart.cartMessage);
 
-    function updateQuantity() {
-      console.log(cartInfo);
+    function computeTotal(qty, price) {
+      const quantityAndPrice = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])({
+        'quantity': qty,
+        'price': price
+      });
+      storeModule.dispatch('changeQty', quantityAndPrice.value);
+      updateCartQuantityAndPrice();
+    }
+
+    function updateCartQuantityAndPrice() {
+      storeModule.dispatch('changeQuantityAndPriceOfCartItem');
     }
 
     return {
       cartInfo,
       errorMessage,
-      updateQuantity
+      computeTotal,
+      cartMessage
     };
   }
 
@@ -12554,10 +12566,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"updateQuantity\":\"setup\"}":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","updateQuantity":"setup"} ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"computeTotal\":\"setup\",\"cartMessage\":\"setup\"}":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","computeTotal":"setup","cartMessage":"setup"} ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12627,7 +12639,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "alert alert-primary"
   }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.errorMessage), 513
   /* TEXT, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.errorMessage != '']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", _hoisted_6, [_hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.errorMessage != '']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+    class: "alert alert-primary"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.cartMessage), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.cartMessage != '']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", _hoisted_6, [_hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     name: "txt_quantity",
     class: "form-control",
@@ -12637,7 +12653,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.cartInfo.quantity]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
     class: "btn btn-primary",
     type: "button",
-    onClick: _cache[2] || (_cache[2] = $event => $setup.updateQuantity())
+    onClick: _cache[2] || (_cache[2] = $event => $setup.computeTotal($setup.cartInfo.quantity, $setup.cartInfo.products.product_price))
   }, " Update "), _hoisted_9])])])])]);
 }
 
@@ -55780,7 +55796,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_updateQuantity_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","updateQuantity":"setup"} */ "./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"updateQuantity\":\"setup\"}");
+/* harmony import */ var _EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_computeTotal_setup_cartMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","computeTotal":"setup","cartMessage":"setup"} */ "./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"computeTotal\":\"setup\",\"cartMessage\":\"setup\"}");
 /* harmony import */ var _EditQuantityModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditQuantityModal.vue?vue&type=script&lang=js */ "./resources/js/components/Cart/EditQuantityModal.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _EditQuantityModal_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditQuantityModal.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Cart/EditQuantityModal.vue?vue&type=style&index=0&lang=css");
 
@@ -55788,7 +55804,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_EditQuantityModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_updateQuantity_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_EditQuantityModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_computeTotal_setup_cartMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -55831,17 +55847,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"updateQuantity\":\"setup\"}":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","updateQuantity":"setup"} ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"computeTotal\":\"setup\",\"cartMessage\":\"setup\"}":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","computeTotal":"setup","cartMessage":"setup"} ***!
+  \********************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_updateQuantity_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","updateQuantity":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"updateQuantity\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_updateQuantity_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_computeTotal_setup_cartMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={"cartInfo":"setup","errorMessage":"setup","computeTotal":"setup","cartMessage":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/EditQuantityModal.vue?vue&type=template&id=9331ed58&bindings={\"cartInfo\":\"setup\",\"errorMessage\":\"setup\",\"computeTotal\":\"setup\",\"cartMessage\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_EditQuantityModal_vue_vue_type_template_id_9331ed58_bindings_cartInfo_setup_errorMessage_setup_computeTotal_setup_cartMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -57180,7 +57196,8 @@ const state = {
   errorResponse: '',
   cartCount: '',
   cartList: [],
-  specificCartInfo: []
+  specificCartInfo: [],
+  total_price: ''
 };
 const getters = {};
 const actions = {
@@ -57224,6 +57241,31 @@ const actions = {
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
     });
+  },
+
+  async changeQty({
+    commit
+  }, quantityAndPrice) {
+    state.total_price = quantityAndPrice.price * quantityAndPrice.quantity;
+    commit('CHANGE_TOTAL_PRICE', state.total_price);
+  },
+
+  async changeQuantityAndPriceOfCartItem({
+    commit,
+    dispatch
+  }) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(`http://127.0.0.1:8000/api/cart/info/${state.specificCartInfo.cart_id}`, state.specificCartInfo).then(response => {
+      commit('CHANGE_QTY_AND_PRICE_INFO', response.data);
+      dispatch('getCartItems');
+    }).catch(error => {
+      commit('SET_MSG', error.response.data.errors);
+    });
+  },
+
+  async clearCartMessage({
+    commit
+  }) {
+    commit('CLEAR_CART_MESSAGE', '');
   }
 
 };
@@ -57232,7 +57274,10 @@ const mutations = {
   SET_MSG: (state, response) => state.errorResponse = response,
   CART_COUNT: (state, response) => state.cartCount = response,
   CART_LIST: (state, response) => state.cartList = response,
-  ITEM_INFO: (state, response) => state.specificCartInfo = response
+  ITEM_INFO: (state, response) => state.specificCartInfo = response,
+  CHANGE_QTY_AND_PRICE_INFO: (state, response) => state.cartMessage = response,
+  CHANGE_TOTAL_PRICE: (state, response) => state.specificCartInfo.total_price = response,
+  CLEAR_CART_MESSAGE: (state, response) => state.cartMessage = ''
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,
