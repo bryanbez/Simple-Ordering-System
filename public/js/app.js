@@ -11658,10 +11658,21 @@ __webpack_require__.r(__webpack_exports__);
     const storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_1__["useStore"])();
     const cartList = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.cart.cartList);
     const errorMessage = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.cart.errorResponse);
+    const cartRemoveMessage = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.cart.cartRemoveMsg);
 
     function showQuantityModel(cart_id) {
       storeModule.dispatch('getSpecificCartItemInfo', cart_id);
       storeModule.dispatch('clearCartMessage');
+    }
+
+    function clearCartRemoveMessage() {
+      storeModule.dispatch('clearCartRemoveMessageAction');
+    }
+
+    function removeCartItem(cart_id) {
+      if (confirm('Are you sure to remove this item?')) {
+        storeModule.dispatch('removeCartItem', cart_id);
+      }
     }
 
     Object(vue__WEBPACK_IMPORTED_MODULE_2__["onMounted"])(() => {
@@ -11670,7 +11681,10 @@ __webpack_require__.r(__webpack_exports__);
     return {
       cartList,
       showQuantityModel,
-      errorMessage
+      errorMessage,
+      clearCartRemoveMessage,
+      removeCartItem,
+      cartRemoveMessage
     };
   }
 
@@ -12151,6 +12165,7 @@ __webpack_require__.r(__webpack_exports__);
     const productIdToCheckout = Object(vue__WEBPACK_IMPORTED_MODULE_2__["ref"])('');
     const productToView = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.products.specificProduct);
     const user_id = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.loginAndlogout.loginUsernameID);
+    const cartAddMessage = Object(vue__WEBPACK_IMPORTED_MODULE_2__["computed"])(() => storeModule.state.cart.cartMessage);
 
     function calculateTotalPrice(price, id) {
       productIdToCheckout.value = id;
@@ -12165,6 +12180,11 @@ __webpack_require__.r(__webpack_exports__);
         'total_price': totalPriceInput.value
       });
       storeModule.dispatch('addToCartAction', cartProduct.value);
+      txtQuantity.value = '';
+    }
+
+    function clearCartAddMessage() {
+      storeModule.dispatch('clearCartMessageAction');
     }
 
     Object(vue__WEBPACK_IMPORTED_MODULE_2__["onMounted"])(() => {
@@ -12176,7 +12196,9 @@ __webpack_require__.r(__webpack_exports__);
       totalPriceInput,
       txtQuantity,
       calculateTotalPrice,
-      addToCart
+      addToCart,
+      clearCartAddMessage,
+      cartAddMessage
     };
   }
 
@@ -12500,10 +12522,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\"}":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup"} ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\",\"clearCartRemoveMessage\":\"setup\",\"removeCartItem\":\"setup\",\"cartRemoveMessage\":\"setup\"}":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup","clearCartRemoveMessage":"setup","removeCartItem":"setup","cartRemoveMessage":"setup"} ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12518,25 +12540,38 @@ const _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createV
 );
 
 const _hoisted_2 = {
+  class: "alert alert-danger"
+};
+const _hoisted_3 = {
+  class: "row"
+};
+const _hoisted_4 = {
+  class: "col col-lg-11"
+};
+const _hoisted_5 = {
+  class: "col col-lg-1"
+};
+const _hoisted_6 = {
   class: "table table-bordered"
 };
 
-const _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tr", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Product Image "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Product Name "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Quantity "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Price "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", {
+const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tr", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Product Image "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Product Name "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Quantity "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Price "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", {
   colspan: "2"
 }, " Options ")], -1
-/* HOISTED */
-);
-
-const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-  class: "btn btn-danger"
-}, " Remove ")], -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ModalQuantity = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("ModalQuantity");
 
-  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [_hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_2, [_hoisted_3, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.cartList, cart => {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [_hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.cartRemoveMessage), 1
+  /* TEXT */
+  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "close_msg",
+    onClick: _cache[1] || (_cache[1] = $event => $setup.clearCartRemoveMessage())
+  }, " x ")])])], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.cartRemoveMessage != '']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_6, [_hoisted_7, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.cartList, cart => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", {
       key: cart.cart_id
     }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("img", {
@@ -12558,7 +12593,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-target": "#modalEditQuantity"
     }, " Edit Quantity ", 8
     /* PROPS */
-    , ["onClick"])]), _hoisted_4]);
+    , ["onClick"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+      class: "btn btn-danger",
+      onClick: $event => $setup.removeCartItem(cart.cart_id)
+    }, " Remove ", 8
+    /* PROPS */
+    , ["onClick"])])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalQuantity)]);
@@ -13777,10 +13817,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\"}":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup"} ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\",\"clearCartAddMessage\":\"setup\",\"cartAddMessage\":\"setup\"}":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup","clearCartAddMessage":"setup","cartAddMessage":"setup"} ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -13789,65 +13829,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
 
-const _hoisted_1 = {
-  class: "container"
-};
+
+const _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("br", null, null, -1
+/* HOISTED */
+);
+
 const _hoisted_2 = {
-  class: "row mt-5"
+  class: "alert alert-success"
 };
 const _hoisted_3 = {
-  class: "col col-sm-12 col-md-6 col-lg-4"
+  class: "row"
 };
 const _hoisted_4 = {
+  class: "col col-lg-11"
+};
+const _hoisted_5 = {
+  class: "col col-lg-1"
+};
+const _hoisted_6 = {
+  class: "container"
+};
+const _hoisted_7 = {
+  class: "row mt-5"
+};
+const _hoisted_8 = {
+  class: "col col-sm-12 col-md-6 col-lg-4"
+};
+const _hoisted_9 = {
   class: "col col-sm-12 col-md-6 col-lg-8"
 };
-
-const _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
-/* HOISTED */
-);
-
-const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("br", null, null, -1
-/* HOISTED */
-);
-
-const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
-  for: ""
-}, " Quantity ", -1
-/* HOISTED */
-);
-
-const _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
-/* HOISTED */
-);
-
-const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
-/* HOISTED */
-);
 
 const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
 /* HOISTED */
 );
 
-const _hoisted_11 = {
-  class: "container"
-};
-const _hoisted_12 = {
-  class: "row"
-};
-
-const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h4", null, " Product Description ", -1
+const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("br", null, null, -1
 /* HOISTED */
 );
 
-const _hoisted_14 = {
-  class: "col col-lg-12"
-};
+const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, " Quantity ", -1
+/* HOISTED */
+);
+
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
 
 const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
 /* HOISTED */
 );
 
-const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+const _hoisted_16 = {
+  class: "container"
+};
+const _hoisted_17 = {
+  class: "row"
+};
+
+const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h4", null, " Product Description ", -1
+/* HOISTED */
+);
+
+const _hoisted_19 = {
+  class: "col col-lg-12"
+};
+
+const _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("hr", null, null, -1
+/* HOISTED */
+);
+
+const _hoisted_21 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "container"
 }, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "row"
@@ -13856,31 +13913,38 @@ const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["create
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("img", {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [_hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.cartAddMessage), 1
+  /* TEXT */
+  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "close_msg",
+    onClick: _cache[1] || (_cache[1] = $event => $setup.clearCartAddMessage())
+  }, " x ")])])], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.cartAddMessage != '']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("img", {
     src: $setup.productToView.product_image,
     width: "250",
     height: "250"
   }, null, 8
   /* PROPS */
-  , ["src"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h2", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_name), 1
+  , ["src"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h2", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_name), 1
   /* TEXT */
-  ), _hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_price), 1
+  ), _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_price), 1
   /* TEXT */
-  ), _hoisted_6, _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), _hoisted_11, _hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
-    onKeyup: _cache[1] || (_cache[1] = $event => $setup.calculateTotalPrice($setup.productToView.product_price, $setup.productToView.product_id)),
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.txtQuantity = $event)
+    onKeyup: _cache[2] || (_cache[2] = $event => $setup.calculateTotalPrice($setup.productToView.product_price, $setup.productToView.product_id)),
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $setup.txtQuantity = $event)
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.txtQuantity]]), _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Total Price: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.totalPriceInput), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.txtQuantity]]), _hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Total Price: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.totalPriceInput), 1
   /* TEXT */
-  ), _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  ), _hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
     class: "btn btn-primary",
-    onClick: _cache[3] || (_cache[3] = $event => $setup.addToCart($setup.productToView.product_id))
-  }, " Add To Cart ")])])]), _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_12, [_hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_14, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_desc), 1
+    onClick: _cache[4] || (_cache[4] = $event => $setup.addToCart($setup.productToView.product_id))
+  }, " Add To Cart ")])])]), _hoisted_15, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_17, [_hoisted_18, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_19, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.productToView.product_desc), 1
   /* TEXT */
-  )])])]), _hoisted_15, _hoisted_16]);
+  )])])]), _hoisted_20, _hoisted_21]);
 }
 
 /***/ }),
@@ -18719,7 +18783,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nh3 {\r\n    margin-top: 1em;\n}\r\n", ""]);
+exports.push([module.i, "\nh3 {\r\n    margin-top: 1em;\n}\n.close_msg {\r\n    cursor: pointer\n}\r\n", ""]);
 
 // exports
 
@@ -55720,7 +55784,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup"} */ "./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\"}");
+/* harmony import */ var _CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup_clearCartRemoveMessage_setup_removeCartItem_setup_cartRemoveMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup","clearCartRemoveMessage":"setup","removeCartItem":"setup","cartRemoveMessage":"setup"} */ "./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\",\"clearCartRemoveMessage\":\"setup\",\"removeCartItem\":\"setup\",\"cartRemoveMessage\":\"setup\"}");
 /* harmony import */ var _CartPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CartPage.vue?vue&type=script&lang=js */ "./resources/js/components/Cart/CartPage.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _CartPage_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CartPage.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Cart/CartPage.vue?vue&type=style&index=0&lang=css");
 
@@ -55728,7 +55792,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_CartPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_CartPage_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup_clearCartRemoveMessage_setup_removeCartItem_setup_cartRemoveMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -55771,17 +55835,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\"}":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup"} ***!
-  \******************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\",\"clearCartRemoveMessage\":\"setup\",\"removeCartItem\":\"setup\",\"cartRemoveMessage\":\"setup\"}":
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup","clearCartRemoveMessage":"setup","removeCartItem":"setup","cartRemoveMessage":"setup"} ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup_clearCartRemoveMessage_setup_removeCartItem_setup_cartRemoveMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./CartPage.vue?vue&type=template&id=5dd47ca3&bindings={"cartList":"setup","showQuantityModel":"setup","errorMessage":"setup","clearCartRemoveMessage":"setup","removeCartItem":"setup","cartRemoveMessage":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Cart/CartPage.vue?vue&type=template&id=5dd47ca3&bindings={\"cartList\":\"setup\",\"showQuantityModel\":\"setup\",\"errorMessage\":\"setup\",\"clearCartRemoveMessage\":\"setup\",\"removeCartItem\":\"setup\",\"cartRemoveMessage\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_CartPage_vue_vue_type_template_id_5dd47ca3_bindings_cartList_setup_showQuantityModel_setup_errorMessage_setup_clearCartRemoveMessage_setup_removeCartItem_setup_cartRemoveMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -56480,7 +56544,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup"} */ "./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\"}");
+/* harmony import */ var _ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup_clearCartAddMessage_setup_cartAddMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup","clearCartAddMessage":"setup","cartAddMessage":"setup"} */ "./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\",\"clearCartAddMessage\":\"setup\",\"cartAddMessage\":\"setup\"}");
 /* harmony import */ var _ViewProduct_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ViewProduct.vue?vue&type=script&lang=js */ "./resources/js/components/Products/ViewProduct.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _ViewProduct_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ViewProduct.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Products/ViewProduct.vue?vue&type=style&index=0&lang=css");
 
@@ -56488,7 +56552,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_ViewProduct_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_ViewProduct_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup_clearCartAddMessage_setup_cartAddMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -56531,17 +56595,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\"}":
-/*!********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup"} ***!
-  \********************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\",\"clearCartAddMessage\":\"setup\",\"cartAddMessage\":\"setup\"}":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup","clearCartAddMessage":"setup","cartAddMessage":"setup"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup_clearCartAddMessage_setup_cartAddMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={"fetchSpecProduct":"setup","productToView":"setup","totalPriceInput":"setup","txtQuantity":"setup","calculateTotalPrice":"setup","addToCart":"setup","clearCartAddMessage":"setup","cartAddMessage":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Products/ViewProduct.vue?vue&type=template&id=a6aa20ac&bindings={\"fetchSpecProduct\":\"setup\",\"productToView\":\"setup\",\"totalPriceInput\":\"setup\",\"txtQuantity\":\"setup\",\"calculateTotalPrice\":\"setup\",\"addToCart\":\"setup\",\"clearCartAddMessage\":\"setup\",\"cartAddMessage\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ViewProduct_vue_vue_type_template_id_a6aa20ac_bindings_fetchSpecProduct_setup_productToView_setup_totalPriceInput_setup_txtQuantity_setup_calculateTotalPrice_setup_addToCart_setup_clearCartAddMessage_setup_cartAddMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -57197,16 +57261,28 @@ const state = {
   cartCount: '',
   cartList: [],
   specificCartInfo: [],
-  total_price: ''
+  total_price: '',
+  cartRemoveMsg: ''
 };
 const getters = {};
 const actions = {
+  async getCartItems({
+    commit
+  }) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/cart/${JSON.parse(localStorage.getItem('user_id'))}`).then(response => {
+      commit('CART_LIST', response.data);
+    }).catch(error => {
+      commit('SET_MSG', error.response.data.errors);
+    });
+  },
+
   async addToCartAction({
     commit,
     dispatch
   }, cartInfo) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`http://127.0.0.1:8000/api/cart/`, cartInfo).then(response => {
       dispatch('getCartItems');
+      dispatch('getCartItemsCount');
       commit('CART_MESSAGE', response.data);
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
@@ -57218,16 +57294,6 @@ const actions = {
   }) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/cart/count/${JSON.parse(localStorage.getItem('user_id'))}`).then(response => {
       commit('CART_COUNT', response.data);
-    }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
-    });
-  },
-
-  async getCartItems({
-    commit
-  }) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/cart/${JSON.parse(localStorage.getItem('user_id'))}`).then(response => {
-      commit('CART_LIST', response.data);
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
     });
@@ -57262,10 +57328,29 @@ const actions = {
     });
   },
 
-  async clearCartMessage({
+  async clearCartMessageAction({
     commit
   }) {
     commit('CLEAR_CART_MESSAGE', '');
+  },
+
+  async removeCartItem({
+    commit,
+    dispatch
+  }, cart_id) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`http://127.0.0.1:8000/api/cart/${cart_id}`).then(response => {
+      commit('CART_REMOVE_MESSAGE', response.data);
+      dispatch('getCartItems');
+      dispatch('getCartItemsCount');
+    }).catch(error => {
+      commit('SET_MSG', error.response.data.errors);
+    });
+  },
+
+  async clearCartRemoveMessageAction({
+    commit
+  }) {
+    commit('CART_REMOVE_MESSAGE', '');
   }
 
 };
@@ -57277,7 +57362,8 @@ const mutations = {
   ITEM_INFO: (state, response) => state.specificCartInfo = response,
   CHANGE_QTY_AND_PRICE_INFO: (state, response) => state.cartMessage = response,
   CHANGE_TOTAL_PRICE: (state, response) => state.specificCartInfo.total_price = response,
-  CLEAR_CART_MESSAGE: (state, response) => state.cartMessage = ''
+  CLEAR_CART_MESSAGE: (state, response) => state.cartMessage = '',
+  CART_REMOVE_MESSAGE: (state, response) => state.cartRemoveMsg = response
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,

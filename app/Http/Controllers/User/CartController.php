@@ -85,9 +85,9 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($cart_id)
     {
-        //
+        return response()->json($this->cart->deleteCartItem($cart_id));
     }
 
     public function cartCount($customer_id) {

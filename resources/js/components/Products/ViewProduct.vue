@@ -1,5 +1,16 @@
 <template>
   <div>
+      <br />
+       <div class="alert alert-success" v-show="cartAddMessage != ''">
+            <div class="row">
+                <div class="col col-lg-11">
+                    {{ cartAddMessage }}
+                </div>
+                <div class="col col-lg-1">
+                    <span class="close_msg" @click="clearCartAddMessage()"> x </span>
+                </div>
+            </div>
+        </div>
       <div class="container">
           <div class="row mt-5">
               <div class="col col-sm-12 col-md-6 col-lg-4">
@@ -63,6 +74,7 @@ export default {
         const productIdToCheckout = ref('')
         const productToView = computed(() => storeModule.state.products.specificProduct)
         const user_id = computed(() => storeModule.state.loginAndlogout.loginUsernameID)
+        const cartAddMessage = computed(() => storeModule.state.cart.cartMessage)
 
         function calculateTotalPrice(price, id) {
             productIdToCheckout.value = id
@@ -77,6 +89,11 @@ export default {
                 'total_price': totalPriceInput.value
             })
             storeModule.dispatch('addToCartAction', cartProduct.value)
+            txtQuantity.value = ''
+        }
+
+        function clearCartAddMessage() {
+            storeModule.dispatch('clearCartMessageAction')
         }
 
         onMounted(() => {
@@ -90,6 +107,8 @@ export default {
             txtQuantity,
             calculateTotalPrice,
             addToCart,
+            clearCartAddMessage,
+            cartAddMessage
         }
     }
 }

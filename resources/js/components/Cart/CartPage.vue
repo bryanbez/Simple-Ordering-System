@@ -1,7 +1,16 @@
 <template>
     <div>
         <h3> Your Cart </h3>
-        
+        <div class="alert alert-danger" v-show="cartRemoveMessage != ''">
+            <div class="row">
+                <div class="col col-lg-11">
+                    {{ cartRemoveMessage }}
+                </div>
+                <div class="col col-lg-1">
+                    <span class="close_msg" @click="clearCartRemoveMessage()"> x </span>
+                </div>
+            </div>
+        </div>
         <table class="table table-bordered">
             <tr>
                 <th> Product Image </th>
@@ -16,7 +25,7 @@
                 <td> {{ cart.quantity }} </td>
                 <td> {{ cart.total_price }} </td>
                 <td> <button class="btn btn-secondary" @click="showQuantityModel(cart.cart_id)" data-toggle="modal" data-target="#modalEditQuantity"> Edit Quantity </button> </td>
-                <td> <button class="btn btn-danger"> Remove </button> </td>
+                <td> <button class="btn btn-danger" @click="removeCartItem(cart.cart_id)"> Remove </button> </td>
             </tr>
         </table>
         <ModalQuantity></ModalQuantity>
@@ -31,17 +40,28 @@ import { ref, computed, onMounted } from 'vue'
 export default {
     components: {
         ModalQuantity
-    },
+    }, 
     setup() {
 
         const storeModule = useStore();
 
         const cartList = computed(() => storeModule.state.cart.cartList)
         const errorMessage = computed(() => storeModule.state.cart.errorResponse)
+        const cartRemoveMessage = computed(() => storeModule.state.cart.cartRemoveMsg)
 
         function showQuantityModel(cart_id) {
             storeModule.dispatch('getSpecificCartItemInfo', cart_id)
             storeModule.dispatch('clearCartMessage')
+        }
+
+        function clearCartRemoveMessage() {
+            storeModule.dispatch('clearCartRemoveMessageAction')
+        }
+
+        function removeCartItem(cart_id) {
+            if (confirm('Are you sure to remove this item?')) {
+                storeModule.dispatch('removeCartItem', cart_id)
+            }
         }
 
         onMounted(() => {
@@ -51,7 +71,10 @@ export default {
         return {
             cartList,
             showQuantityModel,
-            errorMessage
+            errorMessage,
+            clearCartRemoveMessage,
+            removeCartItem,
+            cartRemoveMessage
         }
     }
 
@@ -61,5 +84,8 @@ export default {
 <style>
 h3 {
     margin-top: 1em;
+}
+.close_msg {
+    cursor: pointer
 }
 </style>
