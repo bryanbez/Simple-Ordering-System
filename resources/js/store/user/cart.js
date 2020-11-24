@@ -12,6 +12,14 @@ const state = {
 
 const getters = {
 
+    totalPriceToCheckout: (state) => {
+        var totalPriceInCart = 0
+        state.cartList.forEach((value, index) => {
+            totalPriceInCart = totalPriceInCart + value['total_price']
+        });
+        return totalPriceInCart;
+    }
+
 };
 
 const actions = {

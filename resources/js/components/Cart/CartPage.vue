@@ -27,6 +27,11 @@
                 <td> <button class="btn btn-secondary" @click="showQuantityModel(cart.cart_id)" data-toggle="modal" data-target="#modalEditQuantity"> Edit Quantity </button> </td>
                 <td> <button class="btn btn-danger" @click="removeCartItem(cart.cart_id)"> Remove </button> </td>
             </tr>
+            <tr>
+                <td colspan="3" style="font-size:22px;font-weight:bold"> Total Price: </td>
+                <td style="font-size:22px;font-weight:bold"> {{ cartListPrice }} </td>
+                <td colspan="2"> <button class="btn btn-primary"> Checkout </button> </td>
+            </tr>
         </table>
         <ModalQuantity></ModalQuantity>
 
@@ -48,6 +53,7 @@ export default {
         const cartList = computed(() => storeModule.state.cart.cartList)
         const errorMessage = computed(() => storeModule.state.cart.errorResponse)
         const cartRemoveMessage = computed(() => storeModule.state.cart.cartRemoveMsg)
+        const cartListPrice = computed(() => storeModule.getters.totalPriceToCheckout);
 
         function showQuantityModel(cart_id) {
             storeModule.dispatch('getSpecificCartItemInfo', cart_id)
@@ -74,7 +80,8 @@ export default {
             errorMessage,
             clearCartRemoveMessage,
             removeCartItem,
-            cartRemoveMessage
+            cartRemoveMessage,
+            cartListPrice
         }
     }
 

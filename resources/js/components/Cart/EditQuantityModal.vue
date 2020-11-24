@@ -41,7 +41,6 @@ export default {
 
         const storeModule = useStore();
         const cartInfo = computed(() => storeModule.state.cart.specificCartInfo)
- 
         const errorMessage = computed(() => storeModule.state.cart.errorResponse)
         const cartMessage = computed(() => storeModule.state.cart.cartMessage)
 
