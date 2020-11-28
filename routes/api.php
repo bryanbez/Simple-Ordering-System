@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('product', 'Admin\ProductsCtrl');
 Route::resource('category', 'Admin\CategoriesCtrl');
 Route::resource('cart', 'User\CartController');
+Route::resource('profile', 'User\ProfileController');
 
 Route::get('cart/count/{id}', 'User\CartController@cartCount');
 Route::get('cart/info/{cart_id}', 'User\CartController@itemInfo');

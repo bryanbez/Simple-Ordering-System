@@ -5,6 +5,8 @@ import ArchivesModule from './admin/archives'
 import LoginAndLogoutModule from './loginAndLogout'
 import RegisterModule from './register'
 import CartModule from './user/cart'
+import CheckoutModule from './user/checkout'
+import ProfileModule from './user/profile'
 
 export default createStore({
   modules: {
@@ -13,6 +15,8 @@ export default createStore({
     'archives':  ArchivesModule,
     'loginAndlogout': LoginAndLogoutModule,
     'register': RegisterModule,
-    'cart': CartModule
+    'cart': CartModule,
+    'checkout': CheckoutModule,
+    'profile': ProfileModule
   }
 })

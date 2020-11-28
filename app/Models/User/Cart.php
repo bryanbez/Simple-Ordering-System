@@ -22,27 +22,29 @@ class Cart extends Model
 
     public function store($request) {
 
-        if (Cart::where('product_id', $request->product_id)->first()) {
+        $queryToPass = Cart::where('customer_id', '=', $request->user_id)
+        ->where('product_id', '=', $request->product_id)->first();
+
+        if ($queryToPass == null) {
+            try {
+        		$productToAddToCart = new Cart;
+        		$productToAddToCart->customer_id = $request->user_id;
+        		$productToAddToCart->product_id = $request->product_id;
+        		$productToAddToCart->quantity = $request->quantity;
+        		$productToAddToCart->total_price = $request->total_price;
+        		$productToAddToCart->save();
+
+        		return 'Added To Cart';
+        	}
+        	catch(\Exception $e) {
+        		return 'Failed Add to Cart Item' + $e;
+        	}
+        }
+        else {
             $this->cart_id = Cart::where('product_id', $request->product_id)->first()['cart_id'];
             return $this->changeQtyCart($request);
         }
-        else {
-            try {
-                $productToAddToCart = new Cart;
-                $productToAddToCart->customer_id = $request->user_id;
-                $productToAddToCart->product_id = $request->product_id;
-                $productToAddToCart->quantity = $request->quantity;
-                $productToAddToCart->total_price = $request->total_price;
-                $productToAddToCart->save();
 
-                return 'Added To Cart';
-            }
-            catch(\Exception $e) {
-                return 'Failed Add to Cart Item' + $e;
-            }
-        }
-
-      
     }
 
     public function itemInfo($cart_id) {

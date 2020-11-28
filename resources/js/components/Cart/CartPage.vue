@@ -30,7 +30,7 @@
             <tr>
                 <td colspan="3" style="font-size:22px;font-weight:bold"> Total Price: </td>
                 <td style="font-size:22px;font-weight:bold"> {{ cartListPrice }} </td>
-                <td colspan="2"> <button class="btn btn-primary"> Checkout </button> </td>
+                <td colspan="2"> <router-link to="/checkout" class="btn btn-primary"> <span @click="checkoutItems(cartList, cartListPrice)"> Checkout </span>  </router-link> </td>
             </tr>
         </table>
         <ModalQuantity></ModalQuantity>
@@ -70,6 +70,15 @@ export default {
             }
         }
 
+        function checkoutItems(cartList, cartListTotalPrice) {
+            const checkoutList = {
+                'items': cartList,
+                'subtotal': cartListTotalPrice
+            }
+            storeModule.dispatch('setTotalPaymentAction', cartListTotalPrice)
+            storeModule.dispatch('putCartListToCheckoutList', checkoutList)
+        }
+
         onMounted(() => {
             storeModule.dispatch('getCartItems')
         });
@@ -81,7 +90,8 @@ export default {
             clearCartRemoveMessage,
             removeCartItem,
             cartRemoveMessage,
-            cartListPrice
+            cartListPrice,
+            checkoutItems
         }
     }
 

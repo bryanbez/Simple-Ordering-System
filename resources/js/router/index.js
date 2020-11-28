@@ -10,6 +10,7 @@ import ProductsUserPage from '../components/Products/ListProductsUser'
 import ViewProduct from '../components/Products/ViewProduct';
 import CartPage from '../components/Cart/CartPage';
 import OrderDetails from '../components/Order/OrderDetails';
+import Profile from '../views/User/Profile';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -110,6 +111,15 @@ const router = createRouter({
             path: '/checkout',
             name: 'OrderDetails',
             component: OrderDetails,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
+                else next()
+            }
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile,
             beforeEnter: (to, from, next) => {
                 if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
                 else next()

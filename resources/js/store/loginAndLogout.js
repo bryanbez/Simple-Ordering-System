@@ -44,6 +44,7 @@ const actions = {
             localStorage.setItem('user_id', JSON.stringify(''));
             router.push('/')
             //dispatch('fetchUserName')
+            commit('SET_USERNAME', '')
         }).catch(error => {
             commit('SET_MSG',  error.response.data.errors)
         });
