@@ -22,6 +22,9 @@
       <li class="nav-item">
         <router-link to="/archive" class="nav-link"> Archives </router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/courier" class="nav-link"> Couriers </router-link>
+      </li>
     </ul>
      <span class="navbar-text">
            <a @click="logoutUser()" class="nav-link"> Logout <b>({{ username }})</b> </a>

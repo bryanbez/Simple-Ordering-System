@@ -75,7 +75,7 @@ export default {
                 'items': cartList,
                 'subtotal': cartListTotalPrice
             }
-            storeModule.dispatch('setTotalPaymentAction', cartListTotalPrice)
+            storeModule.dispatch('setSubTotalAction', cartListTotalPrice)
             storeModule.dispatch('putCartListToCheckoutList', checkoutList)
         }
 

@@ -69,6 +69,19 @@
             </div>
         </div>
 
+         <div class="card">
+            <div class="row">
+                <div class="col col-lg-5">
+                    <h3> Courier </h3>
+                </div>
+                <div class="col col-lg-7">
+                   <h3> <select class="form-control" @change="setCourier()" v-model="courierChoice">
+                        <option v-for="courier in listOfCourier" :key="courier.courier_id" :value="courier.courier_id"> {{ courier.courier_name }} (₱{{ courier.courier_base_price }})</option>
+                    </select> </h3>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="row">
                 <div class="col col-lg-5">
@@ -124,15 +137,25 @@ export default {
         const checkoutList = computed(() => storeModule.state.checkout.checkoutList)
         const total_payment = computed(() => storeModule.state.checkout.total_payment)
         const profileInfoOfuser = computed(() => storeModule.state.profile.profileOfUser)
+        const listOfCourier = computed(() => storeModule.state.courier.courierList)
+        const courierChoice = ref('')
+
+        function setCourier() {
+            storeModule.dispatch('setCourierChoiceAction', courierChoice.value)
+        }
 
         onMounted(() => {
             storeModule.dispatch('fetchProfile')
+            storeModule.dispatch('fetchCourierList');
         });
 
         return {
             checkoutList,
             total_payment,
-            profileInfoOfuser
+            profileInfoOfuser,
+            listOfCourier,
+            setCourier,
+            courierChoice
         }
     }
 }
