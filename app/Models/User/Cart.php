@@ -13,7 +13,15 @@ class Cart extends Model
     public $cart_id;
 
     public function getCartInfo($customer_id) {
-        return Cart::where('customer_id', $customer_id)->with('products')->get();
+        $cartList = Cart::where('customer_id', $customer_id)->with('products')->get();
+    
+        if ($cartList == '[]') {
+            return 'null';
+        }
+        else {
+            return $cartList;
+        }
+        
     }
 
     public function cartCount($customer_id) {

@@ -11779,7 +11779,8 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     function fetchSpecCategory(id) {
-      return storeModule.dispatch('fetchSpecificCategory', id);
+      storeModule.dispatch('fetchSpecificCategory', id);
+      storeModule.dispatch('clearMessageBox');
     }
 
     function removeCategory(categoryID, categoryName) {
@@ -12820,6 +12821,7 @@ const _hoisted_5 = {
   class: "col col-lg-1"
 };
 const _hoisted_6 = {
+  key: 0,
   class: "table table-bordered"
 };
 
@@ -12848,6 +12850,15 @@ const _hoisted_9 = {
 const _hoisted_10 = {
   colspan: "2"
 };
+const _hoisted_11 = {
+  key: 1,
+  class: "alert alert-primary"
+};
+
+const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" No items in your cart ");
+
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Purchase Items ");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
 
@@ -12860,7 +12871,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = $event => $setup.clearCartRemoveMessage())
   }, " x ")])])], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.cartRemoveMessage != '']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_6, [_hoisted_7, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.cartList, cart => {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.cartRemoveMessage != '']]), $setup.cartList != 'null' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("table", _hoisted_6, [_hoisted_7, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.cartList, cart => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", {
       key: cart.cart_id
     }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("img", {
@@ -12900,7 +12911,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[2] || (_cache[2] = $event => $setup.checkoutItems($setup.cartList, $setup.cartListPrice))
     }, " Checkout ")]),
     _: 1
-  })])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalQuantity)]);
+  })])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true), $setup.cartList == 'null' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h5", null, [_hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_router_link, {
+    to: "/productlist"
+  }, {
+    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__["withCtx"])(() => [_hoisted_13]),
+    _: 1
+  })])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])("v-if", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalQuantity)]);
 }
 
 /***/ }),
@@ -13268,7 +13284,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn btn-primary",
     type: "button",
     onClick: _cache[3] || (_cache[3] = $event => $setup.updateCategory())
-  }, " Add "), _hoisted_10])])])]);
+  }, " Update "), _hoisted_10])])])]);
 }
 
 /***/ }),
@@ -19865,7 +19881,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nh3 {\r\n    margin-top: 1em;\n}\n.close_msg {\r\n    cursor: pointer\n}\r\n", ""]);
+exports.push([module.i, "\nh3 {\r\n    margin-top: 1em;\n}\n.close_msg {\r\n    cursor: pointer\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -58937,7 +58953,11 @@ const actions = {
     dispatch
   }, productIDToModify) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(`http://127.0.0.1:8000/api/product/${productIDToModify.value.product_id}`, productIDToModify).then(response => {
-      dispatch('getProducts');
+      const urlToSend = {
+        pageURL: '',
+        sortBy: 'reset_sort'
+      };
+      dispatch('getProducts', urlToSend);
       commit('SET_MSG', response.data);
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
@@ -58968,7 +58988,11 @@ const actions = {
     dispatch
   }, product) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`http://127.0.0.1:8000/api/product`, product).then(response => {
-      dispatch('getProducts');
+      const urlToSend = {
+        pageURL: '',
+        sortBy: 'reset_sort'
+      };
+      dispatch('getProducts', urlToSend);
       commit('SET_MSG', response.data);
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
@@ -58980,7 +59004,11 @@ const actions = {
     dispatch
   }, productID) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`http://127.0.0.1:8000/api/product/${productID}`).then(response => {
-      dispatch('getProducts');
+      const urlToSend = {
+        pageURL: '',
+        sortBy: 'reset_sort'
+      };
+      dispatch('getProducts', urlToSend);
       commit('SET_MSG', response.data);
     }).catch(error => {
       commit('SET_MSG', error.response.data.errors);
@@ -59208,10 +59236,15 @@ const state = {
 const getters = {
   totalPriceToCheckout: state => {
     var totalPriceInCart = 0;
-    state.cartList.forEach((value, index) => {
-      totalPriceInCart = totalPriceInCart + value['total_price'];
-    });
-    return totalPriceInCart;
+
+    if (state.cartList == 'null') {
+      return 0;
+    } else {
+      state.cartList.forEach((value, index) => {
+        totalPriceInCart = totalPriceInCart + value['total_price'];
+      });
+      return totalPriceInCart;
+    }
   }
 };
 const actions = {

@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" v-if="cartList != 'null'">
             <tr>
                 <th> Product Image </th>
                 <th> Product Name </th>
@@ -33,6 +33,10 @@
                 <td colspan="2"> <router-link to="/checkout" class="btn btn-primary"> <span @click="checkoutItems(cartList, cartListPrice)"> Checkout </span>  </router-link> </td>
             </tr>
         </table>
+        <div class="alert alert-primary" v-if="cartList == 'null'">
+            <h5> No items in your cart <router-link to="/productlist"> Purchase Items </router-link> </h5>
+        </div>
+
         <ModalQuantity></ModalQuantity>
 
     </div>
@@ -53,7 +57,7 @@ export default {
         const cartList = computed(() => storeModule.state.cart.cartList)
         const errorMessage = computed(() => storeModule.state.cart.errorResponse)
         const cartRemoveMessage = computed(() => storeModule.state.cart.cartRemoveMsg)
-        const cartListPrice = computed(() => storeModule.getters.totalPriceToCheckout);
+        const cartListPrice = computed(() => storeModule.getters.totalPriceToCheckout)
 
         function showQuantityModel(cart_id) {
             storeModule.dispatch('getSpecificCartItemInfo', cart_id)
@@ -91,7 +95,8 @@ export default {
             removeCartItem,
             cartRemoveMessage,
             cartListPrice,
-            checkoutItems
+            checkoutItems,
+
         }
     }
 
@@ -105,4 +110,5 @@ h3 {
 .close_msg {
     cursor: pointer
 }
+
 </style>

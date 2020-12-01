@@ -66,7 +66,11 @@ const actions = {
     async updateProduct({ commit, dispatch }, productIDToModify) {   
         axios.put(`http://127.0.0.1:8000/api/product/${productIDToModify.value.product_id}`, productIDToModify)
         .then(response => {
-            dispatch('getProducts')
+            const urlToSend = {
+                pageURL: '',
+                sortBy: 'reset_sort'
+            }
+            dispatch('getProducts', urlToSend)
             commit('SET_MSG', response.data);
         }).catch(error => {
             commit('SET_MSG',  error.response.data.errors)
@@ -95,7 +99,11 @@ const actions = {
     async addProduct({ commit, dispatch }, product) {
         axios.post(`http://127.0.0.1:8000/api/product`, product)
         .then(response => {
-            dispatch('getProducts')
+            const urlToSend = {
+                pageURL: '',
+                sortBy: 'reset_sort'
+            }
+            dispatch('getProducts', urlToSend)
             commit('SET_MSG', response.data);
         }).catch(error => {
             commit('SET_MSG',  error.response.data.errors)
@@ -105,7 +113,11 @@ const actions = {
     async removeProduct({commit, dispatch}, productID) {
         axios.delete(`http://127.0.0.1:8000/api/product/${productID}`)
         .then(response => {
-            dispatch('getProducts')
+            const urlToSend = {
+                pageURL: '',
+                sortBy: 'reset_sort'
+            }
+            dispatch('getProducts', urlToSend)
             commit('SET_MSG', response.data);
         }).catch(error => {
             commit('SET_MSG',  error.response.data.errors)

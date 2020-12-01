@@ -23,7 +23,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="button" @click="updateCategory()"> Add </button>
+                <button class="btn btn-primary" type="button" @click="updateCategory()"> Update </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
             </div>

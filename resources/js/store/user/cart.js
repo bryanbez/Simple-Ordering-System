@@ -14,10 +14,17 @@ const getters = {
 
     totalPriceToCheckout: (state) => {
         var totalPriceInCart = 0
-        state.cartList.forEach((value, index) => {
-            totalPriceInCart = totalPriceInCart + value['total_price']
-        });
-        return totalPriceInCart;
+
+        if (state.cartList == 'null') {
+            return 0;
+        }
+        else {
+            state.cartList.forEach((value, index) => {
+                totalPriceInCart = totalPriceInCart + value['total_price']
+            });
+            return totalPriceInCart;
+        }
+       
     }
 
 };
@@ -28,6 +35,7 @@ const actions = {
         axios.get(`http://127.0.0.1:8000/api/cart/${JSON.parse(localStorage.getItem('user_id'))}`)
         .then(response => {
             commit('CART_LIST', response.data);
+              
         }).catch(error => {
             commit('SET_MSG',  error.response.data.errors)
         });

@@ -40,7 +40,8 @@ export default {
         });
 
         function fetchSpecCategory(id) {
-            return storeModule.dispatch('fetchSpecificCategory', id);
+            storeModule.dispatch('fetchSpecificCategory', id);
+            storeModule.dispatch('clearMessageBox');
         }
 
         
