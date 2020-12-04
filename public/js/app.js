@@ -12062,9 +12062,20 @@ __webpack_require__.r(__webpack_exports__);
     const profileInfoOfuser = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.profile.profileOfUser);
     const listOfCourier = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.courier.courierList);
     const courierChoice = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])('');
+    const enablePlaceOrder = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.enableButtonPlaceOrder);
 
     function setCourier() {
       storeModule.dispatch('setCourierChoiceAction', courierChoice.value);
+    }
+
+    function placeOrder() {
+      var orderInfo = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])({
+        'productToCheckout': checkoutList,
+        'courier': courierChoice,
+        'total_payment': total_payment,
+        'user_id': profileInfoOfuser
+      });
+      storeModule.dispatch('listAllOrderDetailsToCheckout', orderInfo.value);
     }
 
     Object(vue__WEBPACK_IMPORTED_MODULE_1__["onMounted"])(() => {
@@ -12077,7 +12088,9 @@ __webpack_require__.r(__webpack_exports__);
       profileInfoOfuser,
       listOfCourier,
       setCourier,
-      courierChoice
+      courierChoice,
+      enablePlaceOrder,
+      placeOrder
     };
   }
 
@@ -13772,10 +13785,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\"}":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup"} ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\"}":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup"} ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -13919,13 +13932,9 @@ const _hoisted_37 = {
 const _hoisted_38 = {
   class: "red-text"
 };
-
-const _hoisted_39 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
-  class: "col col-lg-2 btn btn-primary"
-}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Place Order ")], -1
-/* HOISTED */
-);
-
+const _hoisted_39 = {
+  class: "col col-lg-2 btn"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_router_link = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("router-link");
 
@@ -13956,19 +13965,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_16, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_17, [_hoisted_18, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_19, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.profileInfoOfuser.first_name) + " " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.profileInfoOfuser.middle_initial) + ". " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.profileInfoOfuser.last_name), 1
   /* TEXT */
-  )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_20, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_21, [_hoisted_22, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_23, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h5", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("textarea", {
-    cols: "50",
-    rows: "3",
-    disabled: "",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $setup.profileInfoOfuser.address = $event)
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.profileInfoOfuser.address]])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_24, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_25, [_hoisted_26, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.checkoutList.subtotal), 1
+  )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_20, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_21, [_hoisted_22, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_23, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h5", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.profileInfoOfuser.address), 1
+  /* TEXT */
+  )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_24, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_25, [_hoisted_26, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.checkoutList.subtotal), 1
   /* TEXT */
   )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_29, [_hoisted_30, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_31, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
     class: "form-control",
-    onChange: _cache[2] || (_cache[2] = $event => $setup.setCourier()),
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $setup.courierChoice = $event)
+    onChange: _cache[1] || (_cache[1] = $event => $setup.setCourier()),
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.courierChoice = $event)
   }, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.listOfCourier, courier => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("option", {
       key: courier.courier_id,
@@ -13982,7 +13986,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.courierChoice]])])])])]), _hoisted_32, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_34, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_35, [_hoisted_36, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_37, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", _hoisted_38, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.total_payment), 1
   /* TEXT */
-  )]), _hoisted_39])])]);
+  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_39, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    class: "btn btn-primary",
+    onClick: _cache[3] || (_cache[3] = $event => $setup.placeOrder()),
+    disabled: $setup.enablePlaceOrder == true
+  }, " Place Order", 8
+  /* PROPS */
+  , ["disabled"])])])])]);
 }
 
 /***/ }),
@@ -57909,7 +57919,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup"} */ "./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\"}");
+/* harmony import */ var _OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup"} */ "./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\"}");
 /* harmony import */ var _OrderDetails_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderDetails.vue?vue&type=script&lang=js */ "./resources/js/components/Order/OrderDetails.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _OrderDetails_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OrderDetails.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Order/OrderDetails.vue?vue&type=style&index=0&lang=css");
 
@@ -57917,7 +57927,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_OrderDetails_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_OrderDetails_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -57960,17 +57970,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\"}":
-/*!*************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup"} ***!
-  \*************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\"}":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup"} ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Order/OrderDetails.vue?vue&type=template&id=7b8f5900&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_OrderDetails_vue_vue_type_template_id_7b8f5900_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -59372,7 +59382,8 @@ const state = {
   checkoutList: [],
   subtotal: 0,
   deliveryFee: 0,
-  total_payment: 0
+  total_payment: 0,
+  enableButtonPlaceOrder: true
 };
 const getters = {};
 const actions = {
@@ -59389,13 +59400,23 @@ const actions = {
     commit('SET_TOTAL_PAYMENT');
   },
 
-  setCourierChoiceAction({
+  async setCourierChoiceAction({
     commit,
     dispatch
   }, courier_id) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/courier/${courier_id}`).then(response => {
+      commit('SET_BUTTON_PLACE_ORER', false);
       commit('SET_DELIVERY_FEE', response.data.courier_base_price);
       commit('SET_TOTAL_PAYMENT');
+    }).then(error => {//commit('SET_COURIER_MSG', error)
+    });
+  },
+
+  listAllOrderDetailsToCheckout({
+    commit
+  }, orderDetails) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`http://127.0.0.1:8000/api/order/`, orderDetails).then(response => {
+      console.log(response.data);
     }).then(error => {//commit('SET_COURIER_MSG', error)
     });
   }
@@ -59404,6 +59425,7 @@ const actions = {
 const mutations = {
   SET_CHECKOUT_LIST: (state, response) => state.checkoutList = response,
   SET_SUBTOTAL: (state, response) => state.subtotal = response,
+  SET_BUTTON_PLACE_ORER: (state, response) => state.enableButtonPlaceOrder = response,
   SET_DELIVERY_FEE: (state, delivery_fee) => {
     state.deliveryFee = delivery_fee;
   },

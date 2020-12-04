@@ -5,7 +5,8 @@ const state = {
     checkoutList: [],
     subtotal: 0,
     deliveryFee: 0,
-    total_payment: 0
+    total_payment: 0,
+    enableButtonPlaceOrder: true
 };
 
 const getters = {
@@ -22,11 +23,21 @@ const actions = {
         commit('SET_SUBTOTAL', subtotal)
         commit('SET_TOTAL_PAYMENT')
     },
-    setCourierChoiceAction({ commit, dispatch }, courier_id) {
+    async setCourierChoiceAction({ commit, dispatch }, courier_id) {
         axios.get(`http://127.0.0.1:8000/api/courier/${courier_id}`)
         .then(response => {
+            commit('SET_BUTTON_PLACE_ORER', false)
             commit('SET_DELIVERY_FEE', response.data.courier_base_price);
             commit('SET_TOTAL_PAYMENT')
+        }).then(error => {
+            //commit('SET_COURIER_MSG', error)
+        });
+    },
+
+    listAllOrderDetailsToCheckout({ commit }, orderDetails) {
+        axios.post(`http://127.0.0.1:8000/api/order/`, orderDetails)
+        .then(response => {
+            console.log(response.data)
         }).then(error => {
             //commit('SET_COURIER_MSG', error)
         });
@@ -37,6 +48,7 @@ const actions = {
 const mutations = {
     SET_CHECKOUT_LIST: (state, response) => state.checkoutList = response,
     SET_SUBTOTAL: (state, response) => state.subtotal = response,
+    SET_BUTTON_PLACE_ORER: (state, response) => state.enableButtonPlaceOrder = response,
     SET_DELIVERY_FEE: (state, delivery_fee) => {
         state.deliveryFee = delivery_fee
     },

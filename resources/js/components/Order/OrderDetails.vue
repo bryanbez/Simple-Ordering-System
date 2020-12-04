@@ -53,7 +53,7 @@
                     <h3> Address </h3>
                 </div>
                 <div class="col col-lg-8">
-                    <h5> <textarea cols="50" rows="3" disabled v-model="profileInfoOfuser.address">  </textarea> </h5>
+                    <h5> {{ profileInfoOfuser.address }} </h5>
                 </div>
             </div>
         </div>
@@ -117,13 +117,11 @@
                 <div class="col col-lg-2">
                     <h3 class="red-text"> ₱ {{ total_payment }} </h3>
                 </div>
-                 <div class="col col-lg-2 btn btn-primary">
-                    <h3> Place Order </h3>
+                 <div class="col col-lg-2 btn">
+                    <button class="btn btn-primary" @click="placeOrder()" :disabled="enablePlaceOrder == true"> Place Order</button>
                 </div>
             </div>
         </div>
-
-       
   </div>
 </template>
 
@@ -139,9 +137,23 @@ export default {
         const profileInfoOfuser = computed(() => storeModule.state.profile.profileOfUser)
         const listOfCourier = computed(() => storeModule.state.courier.courierList)
         const courierChoice = ref('')
+        const enablePlaceOrder = computed(() => storeModule.state.checkout.enableButtonPlaceOrder)
 
         function setCourier() {
             storeModule.dispatch('setCourierChoiceAction', courierChoice.value)
+        }
+
+        function placeOrder() {
+
+            var orderInfo = ref({
+                'productToCheckout': checkoutList,
+                'courier': courierChoice,
+                'total_payment': total_payment,
+                'user_id': profileInfoOfuser
+            })
+
+            storeModule.dispatch('listAllOrderDetailsToCheckout', orderInfo.value)
+
         }
 
         onMounted(() => {
@@ -155,7 +167,9 @@ export default {
             profileInfoOfuser,
             listOfCourier,
             setCourier,
-            courierChoice
+            courierChoice,
+            enablePlaceOrder,
+            placeOrder
         }
     }
 }

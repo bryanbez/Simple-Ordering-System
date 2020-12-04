@@ -26,6 +26,7 @@ Route::resource('category', 'Admin\CategoriesCtrl');
 Route::resource('cart', 'User\CartController');
 Route::resource('profile', 'User\ProfileController');
 Route::resource('courier', 'Admin\CourierCtrl');
+Route::resource('order', 'User\OrderController');
 
 Route::get('cart/count/{id}', 'User\CartController@cartCount');
 Route::get('cart/info/{cart_id}', 'User\CartController@itemInfo');

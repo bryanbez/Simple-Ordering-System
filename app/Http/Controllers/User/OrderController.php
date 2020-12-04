@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $orders; 
+
+    public function __construct()
+    {
+        $this->orders = new Order();    
+    }
+
     public function index()
     {
         //
@@ -35,7 +38,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json($this->orders->storeOrder($request));
     }
 
     /**
