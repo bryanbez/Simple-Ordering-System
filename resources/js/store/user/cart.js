@@ -24,8 +24,7 @@ const getters = {
             });
             return totalPriceInCart;
         }
-       
-    }
+    },
 
 };
 

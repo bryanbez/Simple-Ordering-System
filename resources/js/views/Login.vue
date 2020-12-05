@@ -21,6 +21,10 @@
             </div>
       </form>
 
+        <div class="alert alert-success" v-if="toLoginMessage != ''">
+            {{ toLoginMessage }}
+        </div>
+
   </div>
 </template>
 
@@ -33,6 +37,7 @@ export default {
         const storeModule = useStore();
 
         const loginMessage = computed(() => storeModule.state.loginAndlogout.loginMessage);
+        const toLoginMessage = computed(() => storeModule.state.register.login_message);
 
         const loginCredentials = {
             email: '',
@@ -47,7 +52,8 @@ export default {
         return {
             loginCredentials,
             loginAccount,
-            loginMessage
+            loginMessage,
+            toLoginMessage
         }
 
     }

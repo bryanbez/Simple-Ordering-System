@@ -45,8 +45,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         return response([
+            'user_id' => $user->id,
             'username' => $user->name,
-            'user_id' => $user->id
+            'email' => $user->email
         ]);
     }
 }

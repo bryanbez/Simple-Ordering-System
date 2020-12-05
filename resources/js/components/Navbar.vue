@@ -40,7 +40,7 @@
         <router-link to="/productlist" class="nav-link"> Products </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/cart" class="nav-link"> Cart ({{ cartCount }}) </router-link>
+        <router-link to="/cart" class="nav-link"> Cart <span v-if="cartCount == null"></span> <span v-if="cartCount != null"> ({{ cartCount }}) </span> </router-link>
       </li>
        <li class="nav-item">
         <router-link to="/profile" class="nav-link"> Profile  </router-link>

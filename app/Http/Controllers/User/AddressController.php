@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User\Profile;
+use App\Models\User\Address;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class AddressController extends Controller
 {
-    public $cart;
+
+    public $address;
 
     public function __construct()
     {
-        $this->profile = new Profile();
+        $this->address = new Address();
     }
-
+  
     public function index()
     {
         //
@@ -22,17 +23,17 @@ class ProfileController extends Controller
 
     public function create()
     {
-        //
+        
     }
 
     public function store(Request $request)
     {
-        return response()->json($this->profile->addUserProfile($request));
+        return response()->json($this->address->addAddress($request));
     }
 
-    public function show($user_name)
+    public function show($id)
     {
-        return response()->json($this->profile->fetchProfile($user_name));
+        //
     }
 
     public function edit($id)
@@ -40,9 +41,9 @@ class ProfileController extends Controller
         //
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        return response()->json($this->profile->updateProfile($request));
+        //
     }
 
     public function destroy($id)

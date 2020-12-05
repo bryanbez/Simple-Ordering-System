@@ -14,7 +14,8 @@ var state = {
   subtotal: 0,
   deliveryFee: 0,
   total_payment: 0,
-  enableButtonPlaceOrder: true
+  enableButtonPlaceOrder: true,
+  isNameAndAddressProvided: false
 };
 var getters = {};
 var actions = {
@@ -36,7 +37,7 @@ var actions = {
             commit = _ref3.commit, dispatch = _ref3.dispatch;
 
             _axios["default"].get("http://127.0.0.1:8000/api/courier/".concat(courier_id)).then(function (response) {
-              commit('SET_BUTTON_PLACE_ORER', false);
+              dispatch('checkIfNameAndAddressProvide');
               commit('SET_DELIVERY_FEE', response.data.courier_base_price);
               commit('SET_TOTAL_PAYMENT');
             }).then(function (error) {//commit('SET_COURIER_MSG', error)
@@ -49,8 +50,21 @@ var actions = {
       }
     });
   },
-  listAllOrderDetailsToCheckout: function listAllOrderDetailsToCheckout(_ref4, orderDetails) {
-    var commit = _ref4.commit;
+  checkIfNameAndAddressProvide: function checkIfNameAndAddressProvide(_ref4) {
+    var commit = _ref4.commit,
+        dispatch = _ref4.dispatch;
+
+    _axios["default"].get("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('username')))).then(function (response) {
+      if (response.data['address'] == null || response.data['first_name'] == null || response.data['last_name'] == null) {
+        commit('SET_BUTTON_PLACE_ORER', true);
+      } else {
+        commit('SET_BUTTON_PLACE_ORER', false);
+      }
+    })["catch"](function (error) {//commit('SET_MSG',  error.response.data.errors)
+    });
+  },
+  listAllOrderDetailsToCheckout: function listAllOrderDetailsToCheckout(_ref5, orderDetails) {
+    var commit = _ref5.commit;
 
     _axios["default"].post("http://127.0.0.1:8000/api/order/", orderDetails).then(function (response) {
       console.log(response.data);

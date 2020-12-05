@@ -42,7 +42,7 @@
                     <h3> Name </h3>
                 </div>
                 <div class="col col-lg-8">
-                    <h3> {{ profileInfoOfuser.first_name }} {{ profileInfoOfuser.middle_initial }}. {{ profileInfoOfuser.last_name }}</h3>
+                    <h3> {{ profileInfoOfuser.first_name }} {{ profileInfoOfuser.middle_initial }} {{ profileInfoOfuser.last_name }}</h3>
                 </div>
             </div>
         </div>

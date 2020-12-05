@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\User\TrackOrder;
+use App\Models\User\Cart;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,6 +43,10 @@ class Order extends Model
 
             $addOrderIdToTrackOrder = new TrackOrder;
             $addOrderIdToTrackOrder->addOrderID($generatedOrderID);
+
+
+            Cart::where('customer_id', );
+
 
             return "Order Created";
 

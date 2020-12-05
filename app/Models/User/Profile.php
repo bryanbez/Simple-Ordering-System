@@ -5,11 +5,33 @@ namespace App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\User;
 
 class Profile extends Model
 {
     protected $guarded = '';
     protected $table = 'tblProfile';
+
+    public function addUserProfile($request) {
+        if (Profile::where('user_id', '=', $request->user_id)->first()['user_id'] == $request->user_id) {
+            return 'Already Saved User Profile ID, email and username';
+        }
+        else {
+            try {
+                Profile::create([
+                    'user_id' => $request->user_id,
+                    'email' => $request->email,
+                    'user_name' => $request->username
+                ]); 
+
+                return 'Profile Saved';
+            }
+            catch(Exception $e) {
+                return 'Error on saving profile'. $e;
+            }
+        }
+     
+    }
 
     public function fetchProfile($user_name) {
         return Profile::where('user_name', $user_name)->firstOrFail();

@@ -51,10 +51,7 @@ export default {
         })
 
         const errorOnInputMessage = computed(() => storeModule.state.register.errorOnInputMessage);
-        // const errorNameMessage = computed(() =>{
-        //     var stringToFilter =  storeModule.state.register.errorOnInputMessage.re;
-        //     return stringToFilter.replace(/[""]/g, '')
-        // });
+       
 
         const passwordNotMatch = computed(() => {
             if (register.password_confirmation.length >= 1) {
@@ -80,7 +77,6 @@ export default {
             registerUser,
             passwordNotMatch,
             errorOnInputMessage,
-
             
         }
 

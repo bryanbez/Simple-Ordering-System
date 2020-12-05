@@ -16,16 +16,21 @@ const actions = {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('/login', loginCredentials).then(response => {
                 if (response.data.username != 'undefined') {
+                    dispatch('profile/addProfile', response.data)
+                    dispatch('profile/saveUserIDToAddress', response.data)
+
                     localStorage.setItem('username', JSON.stringify(response.data.username));
                     localStorage.setItem('user_id', JSON.stringify(response.data.user_id));
+                    localStorage.setItem('email', JSON.stringify(response.data.email));
+                 
+                    commit('SET_USERNAME', JSON.parse(localStorage.getItem('username')))
+                    commit('SET_USERNAME_ID', JSON.parse(localStorage.getItem('user_id')))
                     if (response.data.username === 'admin') {
                         router.push('/admin/dashboard')
                     }
                     else {
                         router.push({ name: 'UserHome' })
                     }
-                    commit('SET_USERNAME', JSON.parse(localStorage.getItem('username')))
-                    commit('SET_USERNAME_ID', JSON.parse(localStorage.getItem('user_id')))
                 }
                 else {
                     this.LogoutAction()
@@ -42,6 +47,7 @@ const actions = {
         axios.post('/logout').then(response => {
             localStorage.setItem('username', JSON.stringify(''));
             localStorage.setItem('user_id', JSON.stringify(''));
+            localStorage.setItem('email', JSON.stringify(''));
             router.push('/')
             //dispatch('fetchUserName')
             commit('SET_USERNAME', '')

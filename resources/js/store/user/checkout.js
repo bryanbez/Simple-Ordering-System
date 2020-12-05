@@ -6,7 +6,9 @@ const state = {
     subtotal: 0,
     deliveryFee: 0,
     total_payment: 0,
-    enableButtonPlaceOrder: true
+    enableButtonPlaceOrder: true,
+    isNameAndAddressProvided: false,
+
 };
 
 const getters = {
@@ -26,11 +28,26 @@ const actions = {
     async setCourierChoiceAction({ commit, dispatch }, courier_id) {
         axios.get(`http://127.0.0.1:8000/api/courier/${courier_id}`)
         .then(response => {
-            commit('SET_BUTTON_PLACE_ORER', false)
+            dispatch('checkIfNameAndAddressProvide')
             commit('SET_DELIVERY_FEE', response.data.courier_base_price);
             commit('SET_TOTAL_PAYMENT')
         }).then(error => {
             //commit('SET_COURIER_MSG', error)
+        });
+    },
+
+    checkIfNameAndAddressProvide({ commit, dispatch }) {
+        
+        axios.get(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('username'))}`)
+        .then(response => {
+            if(response.data['address'] == null || response.data['first_name'] == null || response.data['last_name'] == null) {
+                commit('SET_BUTTON_PLACE_ORER', true)
+            }
+            else {
+                commit('SET_BUTTON_PLACE_ORER', false)
+            }
+        }).catch(error => {
+            //commit('SET_MSG',  error.response.data.errors)
         });
     },
 

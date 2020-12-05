@@ -9,11 +9,15 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { onMounted } from 'vue'
 import NavbarHeader from '../components/Navbar'
 export default {
   components: {
     NavbarHeader
-  }
+  },
+
+ 
 }
 </script>
 
