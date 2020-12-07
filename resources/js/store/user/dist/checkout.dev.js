@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _index = _interopRequireDefault(require("../../router/index"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var state = {
@@ -54,7 +56,7 @@ var actions = {
     var commit = _ref4.commit,
         dispatch = _ref4.dispatch;
 
-    _axios["default"].get("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('username')))).then(function (response) {
+    _axios["default"].get("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('user_id')))).then(function (response) {
       if (response.data['address'] == null || response.data['first_name'] == null || response.data['last_name'] == null) {
         commit('SET_BUTTON_PLACE_ORER', true);
       } else {
@@ -68,6 +70,8 @@ var actions = {
 
     _axios["default"].post("http://127.0.0.1:8000/api/order/", orderDetails).then(function (response) {
       console.log(response.data);
+
+      _index["default"].push('/order');
     }).then(function (error) {//commit('SET_COURIER_MSG', error)
     });
   }

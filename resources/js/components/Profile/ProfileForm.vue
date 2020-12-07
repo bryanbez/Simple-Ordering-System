@@ -101,11 +101,11 @@ export default {
     }
 
     function updateProfile() {
-        storeModule.dispatch('updateProfileAction', profileInfo)
+        storeModule.dispatch('profile/updateProfileAction', profileInfo)
     }
 
     onMounted(() => {
-        storeModule.dispatch('fetchProfile')
+        storeModule.dispatch('profile/fetchProfile')
     });
 
     return {

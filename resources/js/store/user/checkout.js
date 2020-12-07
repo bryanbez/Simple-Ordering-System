@@ -1,4 +1,5 @@
 import axios from 'axios';
+import route from '../../router/index'
 
 const state = {
   
@@ -38,7 +39,7 @@ const actions = {
 
     checkIfNameAndAddressProvide({ commit, dispatch }) {
         
-        axios.get(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('username'))}`)
+        axios.get(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('user_id'))}`)
         .then(response => {
             if(response.data['address'] == null || response.data['first_name'] == null || response.data['last_name'] == null) {
                 commit('SET_BUTTON_PLACE_ORER', true)
@@ -55,6 +56,7 @@ const actions = {
         axios.post(`http://127.0.0.1:8000/api/order/`, orderDetails)
         .then(response => {
             console.log(response.data)
+            route.push('/order')
         }).then(error => {
             //commit('SET_COURIER_MSG', error)
         });

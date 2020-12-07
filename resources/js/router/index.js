@@ -9,9 +9,10 @@ import UserHomePage from '../views/User/Homepage';
 import ProductsUserPage from '../components/Products/ListProductsUser'
 import ViewProduct from '../components/Products/ViewProduct';
 import CartPage from '../components/Cart/CartPage';
-import OrderDetails from '../components/Order/OrderDetails';
+import CheckoutDetails from '../components/Checkout/Checkout';
 import Profile from '../views/User/Profile';
 import Courier from '../views/Admin/Courier';
+import OrderPage from '../views/User/OrderPage';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -110,8 +111,8 @@ const router = createRouter({
         },
         {
             path: '/checkout',
-            name: 'OrderDetails',
-            component: OrderDetails,
+            name: 'Checkout',
+            component: CheckoutDetails,
             beforeEnter: (to, from, next) => {
                 if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
                 else next()
@@ -132,6 +133,15 @@ const router = createRouter({
             component: Courier,
             beforeEnter: (to, from, next) => {
                 if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({ name: 'Login' })
+                else next()
+            }
+        },
+        {
+            path: '/order',
+            name: 'Order',
+            component: OrderPage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')).includes('user') == false) next({ name: 'Login' })
                 else next()
             }
         },

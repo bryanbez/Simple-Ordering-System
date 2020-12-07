@@ -45,6 +45,9 @@
        <li class="nav-item">
         <router-link to="/profile" class="nav-link"> Profile  </router-link>
       </li>
+        <li class="nav-item">
+        <router-link to="/order" class="nav-link"> Orders </router-link>
+      </li>
     </ul>
       <span class="navbar-text">
            <a @click="logoutUser()" class="nav-link"> Logout <b>({{ username }})</b> </a>

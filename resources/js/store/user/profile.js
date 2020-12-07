@@ -24,7 +24,7 @@ const actions = {
     },
 
     async fetchProfile({ commit }) {
-        axios.get(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('username'))}`)
+        axios.get(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('user_id'))}`)
         .then(response => {
             commit('PUT_PROFILE_INFO', response.data);
         }).catch(error => {
@@ -32,7 +32,7 @@ const actions = {
         });
     },
     async updateProfileAction({ commit, dispatch }, profileInfo) {
-        axios.put(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('username'))}`, profileInfo)
+        axios.put(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('user_id'))}`, profileInfo)
         .then(response => {
             dispatch('fetchProfile')
             commit('UPDATE_PROFILE_MSG', response.data);

@@ -33,8 +33,8 @@ class Profile extends Model
      
     }
 
-    public function fetchProfile($user_name) {
-        return Profile::where('user_name', $user_name)->firstOrFail();
+    public function fetchProfile($user_id) {
+        return Profile::where('user_id', $user_id)->firstOrFail();
        
     }
 

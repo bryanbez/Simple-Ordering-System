@@ -49,7 +49,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json($this->orders->showOrderDetails($id));
     }
 
     /**

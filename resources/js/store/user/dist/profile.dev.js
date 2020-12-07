@@ -44,7 +44,7 @@ var actions = {
           case 0:
             commit = _ref2.commit;
 
-            _axios["default"].get("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('username')))).then(function (response) {
+            _axios["default"].get("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('user_id')))).then(function (response) {
               commit('PUT_PROFILE_INFO', response.data);
             })["catch"](function (error) {
               commit('SET_MSG', error.response.data.errors);
@@ -65,7 +65,7 @@ var actions = {
           case 0:
             commit = _ref3.commit, dispatch = _ref3.dispatch;
 
-            _axios["default"].put("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('username'))), profileInfo).then(function (response) {
+            _axios["default"].put("http://127.0.0.1:8000/api/profile/".concat(JSON.parse(localStorage.getItem('user_id'))), profileInfo).then(function (response) {
               dispatch('fetchProfile');
               commit('UPDATE_PROFILE_MSG', response.data);
             })["catch"](function (error) {
