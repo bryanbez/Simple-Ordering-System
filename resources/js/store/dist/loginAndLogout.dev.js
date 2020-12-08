@@ -31,8 +31,6 @@ var actions = {
             _axios["default"].get('/sanctum/csrf-cookie').then(function (response) {
               _axios["default"].post('/login', loginCredentials).then(function (response) {
                 if (response.data.username != 'undefined') {
-                  dispatch('profile/addProfile', response.data);
-                  dispatch('profile/saveUserIDToAddress', response.data);
                   localStorage.setItem('username', JSON.stringify(response.data.username));
                   localStorage.setItem('user_id', JSON.stringify(response.data.user_id));
                   localStorage.setItem('email', JSON.stringify(response.data.email));
@@ -42,6 +40,9 @@ var actions = {
                   if (response.data.username === 'admin') {
                     _router["default"].push('/admin/dashboard');
                   } else {
+                    dispatch('profile/addProfile', response.data);
+                    dispatch('profile/saveUserIDToAddress', response.data);
+
                     _router["default"].push({
                       name: 'UserHome'
                     });

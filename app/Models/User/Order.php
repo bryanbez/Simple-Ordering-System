@@ -2,7 +2,7 @@
 
 namespace App\Models\User;
 
-use App\Models\User\TrackOrder;
+use App\Models\Admin\TrackOrder;
 use App\Models\User\Cart;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -73,6 +73,11 @@ class Order extends Model
 
     public function trackOrder() {
         return $this->belongsTo(TrackOrder::class, 'order_id', 'order_id');    
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return substr($value, 0, -17);
     }
 
 

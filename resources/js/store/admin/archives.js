@@ -17,7 +17,7 @@ const actions = {
         .then(response => {
             commit('ARCHIVE_PRODUCTS', response.data.data);
         }).catch(error => {
-            commit('SET_MSG',  error.response.data.errors)
+            commit('SET_MSG',  error)
         });
     },
 
@@ -27,27 +27,27 @@ const actions = {
             dispatch('fetchArchiveProducts');
             commit('SET_MSG', response.data);
         }).catch(error => {
-            commit('SET_MSG',  error.response.data.errors)
+            commit('SET_MSG',  error)
         });
     },
 
-    async deleteProductAction({ commit }, productId) {
+    async deleteProductAction({ commit, dispatch }, productId) {
         axios.delete(`http://127.0.0.1:8000/api/archive/delete/product/${productId}`)
         .then(response => {
             dispatch('fetchArchiveProducts');
             commit('SET_MSG', response.data);
         }).catch(error => {
-            commit('SET_MSG',  error.response.data.errors)
+            commit('SET_MSG',  error)
         });
     },
 
     async fetchArchiveCategories({ commit }) {
         axios.get('http://127.0.0.1:8000/api/archive/categories')
         .then(response => {
-          
+            console.log(response.data)
             commit('ARCHIVE_CATEGORIES', response.data.data);
         }).catch(error => {
-            commit('SET_MSG',  error.response.data.errors)
+            commit('SET_MSG',  error)
         });
     },
 
@@ -57,17 +57,17 @@ const actions = {
             dispatch('fetchArchiveCategories');
             commit('SET_MSG', response.data);
         }).catch(error => {
-            commit('SET_MSG',  error.response.data.errors)
+            commit('SET_MSG',  error)
         });
     },
 
-    async deleteCategoryAction({ commit }, categoryId) {
+    async deleteCategoryAction({ commit, dispatch }, categoryId) {
         axios.delete(`http://127.0.0.1:8000/api/archive/delete/category/${categoryId}`)
         .then(response => {
             dispatch('fetchArchiveCategories');
-            commit('SET_MSG', response.data);
+            commit('SET_MSG', response);
         }).catch(error => {
-            commit('SET_MSG',  error.response.data.errors)
+            commit('SET_MSG',  error)
         });
     },
 

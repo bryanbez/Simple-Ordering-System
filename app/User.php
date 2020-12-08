@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function fetchUserListByType($user_type) {
+
+        if ($user_type == 'admin') {
+            return 'Failed to fetch users';
+
+        }
+        return User::where('user_type', '=', $user_type)->get();
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCourierID extends Migration
+class AddUserType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCourierID extends Migration
      */
     public function up()
     {
-        Schema::table('tbltrackorder', function (Blueprint $table) {
-           // $table->unsignedInteger('courier_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('user_type', 100)->default('customer');
         });
     }
 
@@ -25,7 +25,7 @@ class AddCourierID extends Migration
      */
     public function down()
     {
-        Schema::table('tbltrackorder', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

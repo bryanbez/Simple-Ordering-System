@@ -12859,9 +12859,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["onClick"])])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(_ctx.archiveCategory), 1
-  /* TEXT */
-  )]);
+  ))]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])(" {{ archiveCategory }} ")]);
 }
 
 /***/ }),
@@ -14110,9 +14108,13 @@ const _hoisted_4 = {
 const _hoisted_5 = {
   class: "row"
 };
-const _hoisted_6 = {
+
+const _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "col col-sm-12 col-lg-9"
-};
+}, null, -1
+/* HOISTED */
+);
+
 const _hoisted_7 = {
   class: "col col-sm-12 col-lg-3"
 };
@@ -14175,9 +14177,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.orderList, orderItem => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", {
       key: orderItem.order_id
-    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(orderItem.created_at), 1
+    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [_hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", null, " Order Date: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(orderItem.created_at), 1
     /* TEXT */
-    )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, " Order Status: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(orderItem.track_order.order_status), 1
+    ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", null, " Order Status: " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(orderItem.track_order.order_status), 1
     /* TEXT */
     )])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_8, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])(orderItem.product_info, productItem => {
       return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", {
@@ -59059,7 +59061,7 @@ const actions = {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://127.0.0.1:8000/api/archive/products').then(response => {
       commit('ARCHIVE_PRODUCTS', response.data.data);
     }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
+      commit('SET_MSG', error);
     });
   },
 
@@ -59071,18 +59073,19 @@ const actions = {
       dispatch('fetchArchiveProducts');
       commit('SET_MSG', response.data);
     }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
+      commit('SET_MSG', error);
     });
   },
 
   async deleteProductAction({
-    commit
+    commit,
+    dispatch
   }, productId) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`http://127.0.0.1:8000/api/archive/delete/product/${productId}`).then(response => {
       dispatch('fetchArchiveProducts');
       commit('SET_MSG', response.data);
     }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
+      commit('SET_MSG', error);
     });
   },
 
@@ -59090,9 +59093,10 @@ const actions = {
     commit
   }) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://127.0.0.1:8000/api/archive/categories').then(response => {
+      console.log(response.data);
       commit('ARCHIVE_CATEGORIES', response.data.data);
     }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
+      commit('SET_MSG', error);
     });
   },
 
@@ -59104,18 +59108,19 @@ const actions = {
       dispatch('fetchArchiveCategories');
       commit('SET_MSG', response.data);
     }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
+      commit('SET_MSG', error);
     });
   },
 
   async deleteCategoryAction({
-    commit
+    commit,
+    dispatch
   }, categoryId) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`http://127.0.0.1:8000/api/archive/delete/category/${categoryId}`).then(response => {
       dispatch('fetchArchiveCategories');
-      commit('SET_MSG', response.data);
+      commit('SET_MSG', response);
     }).catch(error => {
-      commit('SET_MSG', error.response.data.errors);
+      commit('SET_MSG', error);
     });
   }
 
@@ -59549,8 +59554,6 @@ const actions = {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/sanctum/csrf-cookie').then(response => {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', loginCredentials).then(response => {
         if (response.data.username != 'undefined') {
-          dispatch('profile/addProfile', response.data);
-          dispatch('profile/saveUserIDToAddress', response.data);
           localStorage.setItem('username', JSON.stringify(response.data.username));
           localStorage.setItem('user_id', JSON.stringify(response.data.user_id));
           localStorage.setItem('email', JSON.stringify(response.data.email));
@@ -59560,6 +59563,8 @@ const actions = {
           if (response.data.username === 'admin') {
             _router__WEBPACK_IMPORTED_MODULE_1__["default"].push('/admin/dashboard');
           } else {
+            dispatch('profile/addProfile', response.data);
+            dispatch('profile/saveUserIDToAddress', response.data);
             _router__WEBPACK_IMPORTED_MODULE_1__["default"].push({
               name: 'UserHome'
             });

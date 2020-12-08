@@ -8,10 +8,11 @@
                   <div class="col col-lg-12">
                       <div class="row">
                           <div class="col col-sm-12 col-lg-9">
-                              <p> {{ orderItem.created_at }} </p>
+                            
                           </div>
                            <div class="col col-sm-12 col-lg-3">
-                                <p> Order Status: {{ orderItem.track_order.order_status }} </p>
+                                <span> Order Date: {{ orderItem.created_at }} </span>
+                                <span> Order Status: {{ orderItem.track_order.order_status }} </span>
                           </div>
                       </div>
                   </div>
@@ -76,7 +77,8 @@ export default {
         });
 
         return {
-            orderList
+            orderList,
+           
         }
     }
 }

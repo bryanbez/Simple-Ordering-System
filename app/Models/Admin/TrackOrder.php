@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\Admin;
 use App\Models\User\Order;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,11 @@ class TrackOrder extends Model
         $addOrderToTrack->order_status = 'Preparing';
         $addOrderToTrack->is_order_received = 'false';
         $addOrderToTrack->save();
+    }
+
+    public function showOrdersInStaffOrCourier($order_status) {
+
+        return TrackOrder::where('order_status', '=', $order_status)->with('order')->get();
     }
 
     public function order() {

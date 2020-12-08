@@ -17,7 +17,7 @@
         
         </table>
      
-      {{ archiveCategory }}
+      <!-- {{ archiveCategory }} -->
   </div>
 </template>
 

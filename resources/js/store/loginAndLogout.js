@@ -16,8 +16,6 @@ const actions = {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('/login', loginCredentials).then(response => {
                 if (response.data.username != 'undefined') {
-                    dispatch('profile/addProfile', response.data)
-                    dispatch('profile/saveUserIDToAddress', response.data)
 
                     localStorage.setItem('username', JSON.stringify(response.data.username));
                     localStorage.setItem('user_id', JSON.stringify(response.data.user_id));
@@ -29,6 +27,8 @@ const actions = {
                         router.push('/admin/dashboard')
                     }
                     else {
+                        dispatch('profile/addProfile', response.data)
+                        dispatch('profile/saveUserIDToAddress', response.data)
                         router.push({ name: 'UserHome' })
                     }
                 }
