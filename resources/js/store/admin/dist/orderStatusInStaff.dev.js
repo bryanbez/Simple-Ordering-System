@@ -14,19 +14,36 @@ var state = {
 };
 var getters = {};
 var actions = {
-  fetchOrderTrackList: function fetchOrderTrackList(_ref) {
+  fetchOrderTrackListInStaff: function fetchOrderTrackListInStaff(_ref) {
     var commit;
-    return regeneratorRuntime.async(function fetchOrderTrackList$(_context) {
+    return regeneratorRuntime.async(function fetchOrderTrackListInStaff$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             commit = _ref.commit;
 
-            _axios["default"].get('');
+            _axios["default"].get('http://127.0.0.1:8000/api/user_of_app/');
 
           case 2:
           case "end":
             return _context.stop();
+        }
+      }
+    });
+  },
+  fetchOrderTrackListInCourier: function fetchOrderTrackListInCourier(_ref2) {
+    var commit;
+    return regeneratorRuntime.async(function fetchOrderTrackListInCourier$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            commit = _ref2.commit;
+
+            _axios["default"].get('');
+
+          case 2:
+          case "end":
+            return _context2.stop();
         }
       }
     });

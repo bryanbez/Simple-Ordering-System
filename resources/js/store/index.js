@@ -9,6 +9,7 @@ import CheckoutModule from './user/checkout'
 import ProfileModule from './user/profile'
 import CourierModule from './admin/courier'
 import OrderModule from './user/order'
+import UserModule from './admin/users'
 
 export default createStore({
   modules: {
@@ -21,6 +22,7 @@ export default createStore({
     'checkout': CheckoutModule,
     'profile': ProfileModule,
     'courier': CourierModule,
-    'order': OrderModule
+    'order': OrderModule,
+    'user': UserModule
   }
 })

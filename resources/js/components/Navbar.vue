@@ -17,7 +17,7 @@
         <router-link to="/categories" class="nav-link"> Categories </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/" class="nav-link"> Users </router-link>
+        <router-link to="/user" class="nav-link"> Users </router-link>
       </li>
       <li class="nav-item">
         <router-link to="/archive" class="nav-link"> Archives </router-link>

@@ -35,6 +35,8 @@ var _Courier = _interopRequireDefault(require("../views/Admin/Courier"));
 
 var _OrderPage = _interopRequireDefault(require("../views/User/OrderPage"));
 
+var _Users = _interopRequireDefault(require("../views/Admin/Users"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var router = (0, _vueRouter.createRouter)({
@@ -92,7 +94,21 @@ var router = (0, _vueRouter.createRouter)({
   }, {
     path: '/archive',
     name: 'Archives',
-    component: _Archive["default"]
+    component: _Archive["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({
+        name: 'Login'
+      });else next();
+    }
+  }, {
+    path: '/user',
+    name: 'User',
+    component: _Users["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({
+        name: 'Login'
+      });else next();
+    }
   }, {
     path: '/user/dashboard',
     name: 'UserHome',

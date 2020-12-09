@@ -14,14 +14,14 @@ class TrackOrder extends Model
         $addOrderToTrack = new TrackOrder;
         $addOrderToTrack->order_id = $order_id;
         $addOrderToTrack->courier_id = $courier_id;
-        $addOrderToTrack->order_status = 'Preparing';
+        $addOrderToTrack->order_status = 'preparing';
         $addOrderToTrack->is_order_received = 'false';
         $addOrderToTrack->save();
     }
 
-    public function showOrdersInStaffOrCourier($order_status) {
+    public function showOrdersInStaffOrCourier($hold_on) {
 
-        return TrackOrder::where('order_status', '=', $order_status)->with('order')->get();
+        return TrackOrder::where('hold_on', '=', $hold_on)->with('order')->get();
     }
 
     public function order() {

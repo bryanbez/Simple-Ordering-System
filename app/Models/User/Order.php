@@ -44,6 +44,7 @@ class Order extends Model
             $addOrder->total_payment = floatval($request->total_payment);
             $addOrder->product_info = $arrOfProductInfo;
             $addOrder->user_id = $request->user_id['user_id'];
+            $addOrder->payment_method = $request->payment_method;
             $addOrder->save();
 
             $addOrderIdToTrackOrder = new TrackOrder;

@@ -102,8 +102,8 @@
                     <h3> Payment Method </h3>
                 </div>
                 <div class="col col-lg-7">
-                    <h3> <select class="form-control">
-                        <option> Cash On Delivery </option>    
+                    <h3> <select class="form-control" v-model="payment_method">
+                        <option value="cod"> Cash On Delivery </option>    
                     </select> </h3>
                 </div>
             </div>
@@ -137,6 +137,7 @@ export default {
         const profileInfoOfuser = computed(() => storeModule.state.profile.profileOfUser)
         const listOfCourier = computed(() => storeModule.state.courier.courierList)
         const courierChoice = ref('')
+        const payment_method = ref('')
         const enablePlaceOrder = computed(() => storeModule.state.checkout.enableButtonPlaceOrder)
 
         function setCourier() {
@@ -149,7 +150,8 @@ export default {
                 'productToCheckout': checkoutList,
                 'courier': courierChoice,
                 'total_payment': total_payment,
-                'user_id': profileInfoOfuser
+                'user_id': profileInfoOfuser,
+                'payment_method': payment_method
             })
 
             storeModule.dispatch('listAllOrderDetailsToCheckout', orderInfo.value)
@@ -169,7 +171,8 @@ export default {
             setCourier,
             courierChoice,
             enablePlaceOrder,
-            placeOrder
+            placeOrder,
+            payment_method
         }
     }
 }

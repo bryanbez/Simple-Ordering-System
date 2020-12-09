@@ -27,6 +27,8 @@ var _courier = _interopRequireDefault(require("./admin/courier"));
 
 var _order = _interopRequireDefault(require("./user/order"));
 
+var _users = _interopRequireDefault(require("./admin/users"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _default = (0, _vuex.createStore)({
@@ -40,7 +42,8 @@ var _default = (0, _vuex.createStore)({
     'checkout': _checkout["default"],
     'profile': _profile["default"],
     'courier': _courier["default"],
-    'order': _order["default"]
+    'order': _order["default"],
+    'user': _users["default"]
   }
 });
 

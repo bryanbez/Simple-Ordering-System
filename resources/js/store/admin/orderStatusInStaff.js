@@ -12,7 +12,11 @@ const getters = {
 
 const actions = {
 
-    async fetchOrderTrackList({ commit }) {
+    async fetchOrderTrackListInStaff({ commit }) {
+        axios.get('http://127.0.0.1:8000/api/user_of_app/')
+    },
+
+    async fetchOrderTrackListInCourier({ commit }) {
         axios.get('')
     }
  

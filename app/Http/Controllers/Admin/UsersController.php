@@ -18,7 +18,7 @@ class UsersController extends Controller
    
     public function index()
     {
-        //
+        return response()->json($this->users->fetchUserList());
     }
 
     public function create()
@@ -28,12 +28,22 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        //
+    
+        $validatedData = $request->validate([
+            'username' => 'required',
+            'email' => 'required',
+            'user_type' => 'required',
+            'password' => 'required',
+        ]);
+
+        //return $request;
+
+        return response()->json($this->users->saveUserDetails($request));
     }
 
     public function show($user_type)
     {
-        return response()->json($this->users->fetchUserListByType($user_type));
+        //return response()->json($this->users->fetchUserListByType($user_type));
     }
 
     public function edit($id)
