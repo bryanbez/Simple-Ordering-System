@@ -54,11 +54,11 @@ import { ref, computed, onMounted } from 'vue'
 export default {
     setup() {
 
-        const storeModule = useStore() 
+        let storeModule = useStore() 
 
-        const message = computed(() => storeModule.state.user.message);
-        const errOnInput = computed(() => storeModule.state.user.errorOnInput);
-        const user = ref({
+        let message = computed(() => storeModule.state.user.message);
+        let errOnInput = computed(() => storeModule.state.user.errorOnInput);
+        let user = ref({
             username: '',
             email: '',
             user_type: '',

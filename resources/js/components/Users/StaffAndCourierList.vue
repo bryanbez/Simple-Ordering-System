@@ -27,7 +27,7 @@ export default {
 
     const storeModule = useStore() 
 
-    const staffAndCourierList = computed(() => storeModule.state.user.userList)
+    let staffAndCourierList = computed(() => storeModule.state.user.userList)
 
       onMounted(() => {
             storeModule.dispatch('fetchStaffAndCourier')

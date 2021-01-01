@@ -13,7 +13,8 @@ import CheckoutDetails from '../components/Checkout/Checkout';
 import Profile from '../views/User/Profile';
 import Courier from '../views/Admin/Courier';
 import OrderPage from '../views/User/OrderPage';
-import UserPage from '../views/Admin/Users'
+import UserPage from '../views/Admin/Users';
+import VoucherPage from '../views/Admin/Vouchers';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -81,6 +82,15 @@ const router = createRouter({
             path: '/user',
             name: 'User',
             component: UserPage,
+            beforeEnter: (to, from, next) => {
+                if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({ name: 'Login' })
+                else next()
+            }
+        },
+        {
+            path: '/voucher',
+            name: 'Vouchers',
+            component: VoucherPage,
             beforeEnter: (to, from, next) => {
                 if (JSON.parse(localStorage.getItem('username')) !== 'admin') next({ name: 'Login' })
                 else next()

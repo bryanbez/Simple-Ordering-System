@@ -69,8 +69,8 @@ import { ref, computed, onMounted } from 'vue'
 export default {
     setup() {
 
-        const storeModule = useStore();
-        const orderList = computed(() => storeModule.state.order.orderList);
+        let storeModule = useStore();
+        let orderList = computed(() => storeModule.state.order.orderList);
 
         onMounted(() => {
             storeModule.dispatch('order/fetchAllOrders')

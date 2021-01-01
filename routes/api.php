@@ -30,6 +30,7 @@ Route::resource('order', 'User\OrderController');
 Route::resource('address', 'User\AddressController');
 Route::resource('track_order', 'Admin\TrackOrderController');
 Route::resource('user_of_app', 'Admin\UsersController');
+Route::resource('voucher', 'Admin\VoucherCtrl');
 
 Route::get('cart/count/{id}', 'User\CartController@cartCount');
 Route::get('cart/info/{cart_id}', 'User\CartController@itemInfo');

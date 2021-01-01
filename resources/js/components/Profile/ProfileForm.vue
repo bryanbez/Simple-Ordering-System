@@ -87,10 +87,10 @@ import { ref, computed, onMounted } from 'vue'
 export default {
   setup() {
 
-    const storeModule = useStore();
+    let storeModule = useStore();
 
-    const profileInfo = computed(() => storeModule.state.profile.profileOfUser)
-    const updateProfileMsg = computed(() => storeModule.state.profile.updateProfileMsg)
+    let profileInfo = computed(() => storeModule.state.profile.profileOfUser)
+    let updateProfileMsg = computed(() => storeModule.state.profile.updateProfileMsg)
 
     function uploadImage(event) {
         var fileReader = new FileReader();

@@ -10,6 +10,7 @@ import ProfileModule from './user/profile'
 import CourierModule from './admin/courier'
 import OrderModule from './user/order'
 import UserModule from './admin/users'
+import VoucherMoule from './admin/voucher'
 
 export default createStore({
   modules: {
@@ -23,6 +24,7 @@ export default createStore({
     'profile': ProfileModule,
     'courier': CourierModule,
     'order': OrderModule,
-    'user': UserModule
+    'user': UserModule,
+    'voucher': VoucherMoule
   }
 })

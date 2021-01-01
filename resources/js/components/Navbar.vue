@@ -25,6 +25,9 @@
       <li class="nav-item">
         <router-link to="/courier" class="nav-link"> Couriers </router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/voucher" class="nav-link"> Vouchers </router-link>
+      </li>
     </ul>
      <span class="navbar-text">
            <a @click="logoutUser()" class="nav-link"> Logout <b>({{ username }})</b> </a>

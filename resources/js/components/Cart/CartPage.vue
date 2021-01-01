@@ -52,12 +52,12 @@ export default {
     }, 
     setup() {
 
-        const storeModule = useStore();
+        let storeModule = useStore();
 
-        const cartList = computed(() => storeModule.state.cart.cartList)
-        const errorMessage = computed(() => storeModule.state.cart.errorResponse)
-        const cartRemoveMessage = computed(() => storeModule.state.cart.cartRemoveMsg)
-        const cartListPrice = computed(() => storeModule.getters.totalPriceToCheckout)
+        let cartList = computed(() => storeModule.state.cart.cartList)
+        let errorMessage = computed(() => storeModule.state.cart.errorResponse)
+        let cartRemoveMessage = computed(() => storeModule.state.cart.cartRemoveMsg)
+        let cartListPrice = computed(() => storeModule.getters.totalPriceToCheckout)
 
         function showQuantityModel(cart_id) {
             storeModule.dispatch('getSpecificCartItemInfo', cart_id)
