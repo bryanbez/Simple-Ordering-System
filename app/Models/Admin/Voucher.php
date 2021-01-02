@@ -36,4 +36,28 @@ class Voucher extends Model
         return Voucher::all();
     }
 
+    public function showSingleVoucher($voucher_id) {
+
+        return Voucher::where('voucher_id', $voucher_id)->first();
+    }
+
+    public function updateVoucher($request) {
+
+        try {
+            Voucher::where('voucher_id', $request->voucher_id)->update([
+                'voucher_code' => $request->voucher_code,
+                'voucher_name' => $request->voucher_name,
+                'voucher_description' => $request->voucher_description,
+                'voucher_count' => $request->voucher_count,
+                'is_available' => $request->is_available
+            ]);
+
+            return 'Voucher Information Updated';
+        }
+        catch(\Exception $e) {
+            return 'Failed to Update Voucher Information'. $e;
+        }
+
+    }
+
 }

@@ -32,7 +32,7 @@ class VoucherCtrl extends Controller
 
     public function show($id)
     {
-        //
+        return response()->json($this->voucher->showSingleVoucher($id));
     }
 
     public function edit($id)
@@ -40,9 +40,9 @@ class VoucherCtrl extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        return response()->json($this->voucher->updateVoucher($request));
     }
 
     public function destroy($id)
