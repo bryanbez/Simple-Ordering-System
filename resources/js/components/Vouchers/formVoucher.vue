@@ -16,19 +16,34 @@
             </div>
             <div class="modal-body">
                 <form action="" method="post">
-                    <label for=""> Voucher Code </label>
+                    <label for=""> Voucher Code </label>  <span class="text-danger" v-show="inputErr.voucher_code"> {{ inputErr.voucher_code }} </span>
                     <input type="text" class="form-control" v-model="voucher.code">
 
-                    <label for=""> Voucher Title </label>
+                    <label for=""> Voucher Title </label> <span class="text-danger" v-show="inputErr.voucher_name"> {{ inputErr.voucher_name }} </span>
                     <input type="text" class="form-control" v-model="voucher.name">
 
-                    <label for=""> Voucher Description </label>
+                    <label for=""> Voucher Description </label> <span class="text-danger" v-show="inputErr.voucher_description"> {{ inputErr.voucher_description }} </span>
                     <textarea class="form-control" cols="30" rows="10" v-model="voucher.description"></textarea>
 
-                    <label for=""> Voucher Count </label>
+                    <label for=""> Voucher Count </label> <span class="text-danger" v-show="inputErr.count"> {{ inputErr.count }} </span>
                     <input type="text" class="form-control" v-model="voucher.count">  
 
-                    <label for=""> Is Available </label>
+                    <label for=""> Type of Voucher </label> <span class="text-danger" v-show="inputErr.type_of_voucher"> {{ inputErr.type_of_voucher }} </span>
+                    <select class="form-control" v-model="voucher.type_of_voucher">
+                        <option value="percent"> Percentage </option>
+                        <option value="fixed_amount"> Fixed Discount </option>
+                    </select>
+
+                    <label for=""> Percent or Amount <i>default: 0</i> </label> <span class="text-danger" v-show="inputErr.percent_or_amount"> {{ inputErr.percent_or_amount }} </span>
+                    <input type="text" class="form-control" v-model="voucher.percent_or_amount">
+
+                    <label for=""> Minimum Spend <i>default: 0</i> </label>
+                    <input type="text" class="form-control" v-model="voucher.minimum_spend"> 
+
+                    <label for=""> Capped At <i>default: 0</i> </label>
+                    <input type="text" class="form-control" v-model="voucher.capped_at">  
+
+                    <label for=""> Is Available </label> <span class="text-danger" v-show="inputErr.is_available"> {{ inputErr.is_available }} </span>
                     <select class="form-control" v-model="voucher.is_available">
                         <option value="yes"> Yes </option>
                         <option value="no"> No </option>
@@ -54,24 +69,31 @@ export default {
 
         let storeModule = useStore();
 
-        let saveMessage = computed(() => storeModule.state.voucher.message);
+        let saveMessage = computed(() => storeModule.state.voucher.message)
+        let inputErr = computed(() => storeModule.state.voucher.inputError)
 
         let voucher = {
             'code': '',
             'name': '',
             'description': '',
             'count': '',
-            'is_available': ''
+            'is_available': '',
+            'minimum_spend': '',
+            'capped_at': '',
+            'type_of_voucher': '',
+            'percent_or_amount': ''
         }
 
         function addVoucher() {
             storeModule.dispatch('saveVoucher', voucher)
+            // voucher = ''
         }
 
         return {
             voucher,
             addVoucher,
-            saveMessage
+            saveMessage,
+            inputErr
         }
     }
 }

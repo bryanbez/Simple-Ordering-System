@@ -19,7 +19,11 @@ class Voucher extends Model
             $newVoucher->voucher_name = $request->name;
             $newVoucher->voucher_description = $request->description;
             $newVoucher->voucher_count = $request->count;
+            $newVoucher->type_of_voucher = $request->type_of_voucher;
+            $newVoucher->percent_or_amount = $request->percent_or_amount;
             $newVoucher->is_available = $request->is_available;
+            $newVoucher->minimum_spend = $request->minimum_spend;
+            $newVoucher->capped_at = $request->capped_at;
             $newVoucher->save();
     
             return 'Voucher Information Saved';
@@ -49,7 +53,11 @@ class Voucher extends Model
                 'voucher_name' => $request->voucher_name,
                 'voucher_description' => $request->voucher_description,
                 'voucher_count' => $request->voucher_count,
-                'is_available' => $request->is_available
+                'type_of_voucher' => $request->type_of_voucher,
+                'percent_or_amount' => $request->percent_or_amount,
+                'is_available' => $request->is_available,
+                'minimum_spend' => $request->minimum_spend,
+                'capped_at' => $request->capped_at
             ]);
 
             return 'Voucher Information Updated';
@@ -58,6 +66,17 @@ class Voucher extends Model
             return 'Failed to Update Voucher Information'. $e;
         }
 
+    }
+
+    public function deleteVoucher($id) {
+
+        try {
+            Voucher::where('voucher_id', $id)->delete();
+            return 'Voucher Delete Successfully';
+        }
+        catch(\Exception $e) {
+            return 'Failed to Delete Voucher';
+        }
     }
 
 }

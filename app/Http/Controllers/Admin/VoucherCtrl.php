@@ -27,6 +27,16 @@ class VoucherCtrl extends Controller
 
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'code' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'count' => 'required|numeric',
+            'type_of_voucher' => 'required',
+            'percent_or_amount' => 'required|numeric',
+            'is_available' => 'required'
+        ]);
+
         return response()->json($this->voucher->saveVoucher($request));
     }
 
@@ -42,11 +52,21 @@ class VoucherCtrl extends Controller
 
     public function update(Request $request)
     {
+        $validatedData = $request->validate([
+            'voucher_code' => 'required',
+            'voucher_name' => 'required',
+            'voucher_description' => 'required',
+            'voucher_count' => 'required|numeric',
+            'type_of_voucher' => 'required',
+            'percent_or_amount' => 'required|numeric',
+            'is_available' => 'required'
+        ]);
+
         return response()->json($this->voucher->updateVoucher($request));
     }
 
     public function destroy($id)
     {
-        //
+        return response()->json($this->voucher->deleteVoucher($id));
     }
 }

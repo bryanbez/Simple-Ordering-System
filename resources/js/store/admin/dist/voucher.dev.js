@@ -13,7 +13,8 @@ var state = {
   listVoucher: [],
   message: '',
   errorMessage: '',
-  singleVoucher: []
+  singleVoucher: [],
+  inputError: []
 };
 var getters = {};
 var actions = {
@@ -26,9 +27,10 @@ var actions = {
             commit = _ref.commit, dispatch = _ref.dispatch;
 
             _axios["default"].post('http://127.0.0.1:8000/api/voucher', voucher).then(function (response) {
-              commit('SET_SAVE_UPDATE_VOUCHER_MESSAGE', response.data);
+              dispatch('fetchListOfVoucher');
+              commit('SET_MESSAGE', response.data);
             })["catch"](function (error) {
-              commit('SET_ERR_MESSAGE', error);
+              commit('SET_INPUT_ERR_MESSAGE', error.response.data.errors);
             });
 
           case 2:
@@ -87,28 +89,55 @@ var actions = {
         switch (_context4.prev = _context4.next) {
           case 0:
             commit = _ref4.commit, dispatch = _ref4.dispatch;
-            console.log(singleVoucher);
 
             _axios["default"].put("http://127.0.0.1:8000/api/voucher/".concat(singleVoucher._value['voucher_id']), singleVoucher._value).then(function (response) {
               dispatch('fetchListOfVoucher');
-              commit('SET_SAVE_UPDATE_VOUCHER_MESSAGE', response.data);
+              dispatch('cleanMessage');
+              commit('SET_MESSAGE', response.data);
             })["catch"](function (error) {
-              commit('SET_ERR_MESSAGE', error);
+              commit('SET_INPUT_ERR_MESSAGE', error.response.data.errors);
             });
 
-          case 3:
+          case 2:
           case "end":
             return _context4.stop();
         }
       }
     });
+  },
+  removeVoucherAction: function removeVoucherAction(_ref5, voucher_id) {
+    var commit, dispatch;
+    return regeneratorRuntime.async(function removeVoucherAction$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            commit = _ref5.commit, dispatch = _ref5.dispatch;
+
+            _axios["default"]["delete"]("http://127.0.0.1:8000/api/voucher/".concat(voucher_id)).then(function (response) {
+              dispatch('fetchListOfVoucher');
+              commit('SET_MESSAGE', response.data);
+            })["catch"](function (error) {
+              commit('SET_ERR_MESSAGE', error);
+            });
+
+          case 2:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    });
+  },
+  cleanMessage: function cleanMessage(_ref6) {
+    var commit = _ref6.commit;
+    commit('SET_MESSAGE', '');
+    commit('SET_INPUT_ERR_MESSAGE', '');
   }
 };
 var mutations = {
   SET_LIST_VOUCHER: function SET_LIST_VOUCHER(state, response) {
     return state.listVoucher = response;
   },
-  SET_SAVE_UPDATE_VOUCHER_MESSAGE: function SET_SAVE_UPDATE_VOUCHER_MESSAGE(state, message) {
+  SET_MESSAGE: function SET_MESSAGE(state, message) {
     return state.message = message;
   },
   SET_ERR_MESSAGE: function SET_ERR_MESSAGE(state, error) {
@@ -116,6 +145,9 @@ var mutations = {
   },
   SET_SINGLE_VOUCHER: function SET_SINGLE_VOUCHER(state, response) {
     return state.singleVoucher = response;
+  },
+  SET_INPUT_ERR_MESSAGE: function SET_INPUT_ERR_MESSAGE(state, response) {
+    return state.inputError = response;
   }
 };
 var _default = {

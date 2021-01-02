@@ -20,7 +20,7 @@
                 <td> {{ singleVoucher.voucher_count }} </td>
                 <td> {{ singleVoucher.is_available }} </td>
                 <td> <button class="btn btn-success" @click="fetchSpecificVoucher(singleVoucher.voucher_id)" type="button" data-toggle="modal" data-target="#modalUpdateVoucher"> Edit </button> </td>
-                <td> <button class="btn btn-danger"> Remove </button> </td>
+                <td> <button class="btn btn-danger" @click="removeVoucher(singleVoucher.voucher_id)"> Remove </button> </td>
             </tr>
             <ModalUpdateVoucher></ModalUpdateVoucher>
         </table>
@@ -32,7 +32,7 @@
 import ModalAddVoucher from './formVoucher';
 import ModalUpdateVoucher from './FormUpdateVoucher';
 import { useStore } from 'vuex'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 export default {
     components: {
         ModalAddVoucher,
@@ -44,8 +44,23 @@ export default {
 
         let listOfVouchers = computed(() => storeModule.state.voucher.listVoucher);
 
+        let addUpdateMessage = computed(() => storeModule.state.voucher.message);
+        
+        watch(addUpdateMessage, () => {
+            setTimeout(function (){
+                storeModule.dispatch('cleanMessage')
+            }, 5000)
+        })
+
         function fetchSpecificVoucher(voucher_id) {
             storeModule.dispatch('fetchListOfSpecificVoucher', voucher_id)
+        }
+
+        function removeVoucher(voucher_id) {
+            if (confirm('Are you sure to delete this voucher?')) {
+                storeModule.dispatch('removeVoucherAction', voucher_id)
+            }
+            
         }
 
         onMounted(() => {
@@ -54,7 +69,8 @@ export default {
 
         return {
             listOfVouchers,
-            fetchSpecificVoucher
+            fetchSpecificVoucher,
+            removeVoucher
         }
     }
 

@@ -12583,15 +12583,23 @@ __webpack_require__.r(__webpack_exports__);
     let storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["useStore"])();
     let updateMessage = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.voucher.message);
     let singleVoucher = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.voucher.singleVoucher);
+    let inputErr = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.voucher.inputError);
 
     function updateVoucher() {
       storeModule.dispatch('updateVoucherAction', singleVoucher);
     }
 
+    function clearMessage() {
+      // onWatch lifecycle hook then timer 
+      storeModule.dispatch('cleanMessage');
+    }
+
     return {
       singleVoucher,
       updateMessage,
-      updateVoucher
+      updateVoucher,
+      clearMessage,
+      inputErr
     };
   }
 
@@ -12625,9 +12633,21 @@ __webpack_require__.r(__webpack_exports__);
   setup() {
     let storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_2__["useStore"])();
     let listOfVouchers = Object(vue__WEBPACK_IMPORTED_MODULE_3__["computed"])(() => storeModule.state.voucher.listVoucher);
+    let addUpdateMessage = Object(vue__WEBPACK_IMPORTED_MODULE_3__["computed"])(() => storeModule.state.voucher.message);
+    Object(vue__WEBPACK_IMPORTED_MODULE_3__["watch"])(addUpdateMessage, () => {
+      setTimeout(function () {
+        storeModule.dispatch('cleanMessage');
+      }, 5000);
+    });
 
     function fetchSpecificVoucher(voucher_id) {
       storeModule.dispatch('fetchListOfSpecificVoucher', voucher_id);
+    }
+
+    function removeVoucher(voucher_id) {
+      if (confirm('Are you sure to delete this voucher?')) {
+        storeModule.dispatch('removeVoucherAction', voucher_id);
+      }
     }
 
     Object(vue__WEBPACK_IMPORTED_MODULE_3__["onMounted"])(() => {
@@ -12635,7 +12655,8 @@ __webpack_require__.r(__webpack_exports__);
     });
     return {
       listOfVouchers,
-      fetchSpecificVoucher
+      fetchSpecificVoucher,
+      removeVoucher
     };
   }
 
@@ -12660,22 +12681,28 @@ __webpack_require__.r(__webpack_exports__);
   setup() {
     let storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["useStore"])();
     let saveMessage = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.voucher.message);
+    let inputErr = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.voucher.inputError);
     let voucher = {
       'code': '',
       'name': '',
       'description': '',
       'count': '',
-      'is_available': ''
+      'is_available': '',
+      'minimum_spend': '',
+      'capped_at': '',
+      'type_of_voucher': '',
+      'percent_or_amount': ''
     };
 
     function addVoucher() {
-      storeModule.dispatch('saveVoucher', voucher);
+      storeModule.dispatch('saveVoucher', voucher); // voucher = ''
     }
 
     return {
       voucher,
       addVoucher,
-      saveMessage
+      saveMessage,
+      inputErr
     };
   }
 
@@ -15743,10 +15770,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\"}":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup"} ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\",\"clearMessage\":\"setup\",\"inputErr\":\"setup\"}":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup","clearMessage":"setup","inputErr":"setup"} ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15798,102 +15825,199 @@ const _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createV
 /* HOISTED */
 );
 
-const _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Voucher Title ", -1
 /* HOISTED */
 );
 
-const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Voucher Description ", -1
 /* HOISTED */
 );
 
-const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Voucher Count ", -1
 /* HOISTED */
 );
 
-const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, " Type of Voucher ", -1
+/* HOISTED */
+);
+
+const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+  value: "percent"
+}, " Percentage ", -1
+/* HOISTED */
+);
+
+const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+  value: "fixed_amount"
+}, " Fixed Discount ", -1
+/* HOISTED */
+);
+
+const _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Percent or Amount "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("i", null, "if percent, do not put percent sign ")], -1
+/* HOISTED */
+);
+
+const _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_21 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Minimum Spend "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("i", null, "default: 0")], -1
+/* HOISTED */
+);
+
+const _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Capped At "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("i", null, "default: 0")], -1
+/* HOISTED */
+);
+
+const _hoisted_23 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Is Available ", -1
 /* HOISTED */
 );
 
-const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+const _hoisted_24 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_25 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
   value: "yes"
 }, " Yes ", -1
 /* HOISTED */
 );
 
-const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+const _hoisted_26 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
   value: "no"
 }, " No ", -1
 /* HOISTED */
 );
 
-const _hoisted_14 = {
+const _hoisted_27 = {
   class: "modal-footer"
 };
-
-const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-  type: "button",
-  class: "btn btn-secondary",
-  "data-dismiss": "modal"
-}, "Close", -1
-/* HOISTED */
-);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_3, [_hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
     class: "alert alert-primary"
   }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.updateMessage), 513
   /* TEXT, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.updateMessage]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", _hoisted_6, [_hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.updateMessage]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", _hoisted_6, [_hoisted_7, _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.voucher_code), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.voucher_code]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $setup.singleVoucher.voucher_code = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_code]]), _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_code]]), _hoisted_9, _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.voucher_name), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.voucher_name]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.singleVoucher.voucher_name = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_name]]), _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("textarea", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_name]]), _hoisted_11, _hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.voucher_description), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.voucher_description]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("textarea", {
     class: "form-control",
     cols: "30",
     rows: "10",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $setup.singleVoucher.voucher_description = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_description]]), _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_description]]), _hoisted_13, _hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.count), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.count]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $setup.singleVoucher.voucher_count = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_count]]), _hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.voucher_count]]), _hoisted_15, _hoisted_16, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.type_of_voucher), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.type_of_voucher]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
     class: "form-control",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $setup.singleVoucher.is_available = $event)
-  }, [_hoisted_12, _hoisted_13], 512
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $setup.singleVoucher.type_of_voucher = $event)
+  }, [_hoisted_17, _hoisted_18], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.singleVoucher.is_available]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_14, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.singleVoucher.type_of_voucher]]), _hoisted_19, _hoisted_20, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.percent_or_amount), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.percent_or_amount]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "form-control",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => $setup.singleVoucher.percent_or_amount = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.percent_or_amount]]), _hoisted_21, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "form-control",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $setup.singleVoucher.minimum_spend = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.minimum_spend]]), _hoisted_22, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "form-control",
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $setup.singleVoucher.capped_at = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.singleVoucher.capped_at]]), _hoisted_23, _hoisted_24, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.is_available), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.is_available]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+    class: "form-control",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => $setup.singleVoucher.is_available = $event)
+  }, [_hoisted_25, _hoisted_26], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.singleVoucher.is_available]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
     class: "btn btn-primary",
     type: "button",
-    onClick: _cache[6] || (_cache[6] = $event => $setup.updateVoucher())
-  }, " Update "), _hoisted_15])])])])]);
+    onClick: _cache[10] || (_cache[10] = $event => $setup.updateVoucher())
+  }, " Update "), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    type: "button",
+    class: "btn btn-secondary",
+    "data-dismiss": "modal",
+    onClick: _cache[11] || (_cache[11] = $event => $setup.clearMessage())
+  }, "Close")])])])])]);
 }
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\"}":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup"} ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15914,12 +16038,6 @@ const _hoisted_2 = {
 const _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("tr", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Voucher Code "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Voucher Name "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Voucher Description "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Voucher Count "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", null, " Is Available "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("th", {
   colspan: "3"
 }, " Options ")], -1
-/* HOISTED */
-);
-
-const _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
-  class: "btn btn-danger"
-}, " Remove ")], -1
 /* HOISTED */
 );
 
@@ -15949,7 +16067,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-target": "#modalUpdateVoucher"
     }, " Edit ", 8
     /* PROPS */
-    , ["onClick"])]), _hoisted_4]);
+    , ["onClick"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+      class: "btn btn-danger",
+      onClick: $event => $setup.removeVoucher(singleVoucher.voucher_id)
+    }, " Remove ", 8
+    /* PROPS */
+    , ["onClick"])])]);
   }), 128
   /* KEYED_FRAGMENT */
   )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalUpdateVoucher)])]);
@@ -15957,10 +16080,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\"}":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup"} ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\",\"inputErr\":\"setup\"}":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup","inputErr":"setup"} ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -16022,47 +16145,97 @@ const _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createV
 /* HOISTED */
 );
 
-const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Voucher Title ", -1
 /* HOISTED */
 );
 
-const _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Voucher Description ", -1
 /* HOISTED */
 );
 
-const _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Voucher Count ", -1
 /* HOISTED */
 );
 
-const _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+const _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, " Type of Voucher ", -1
+/* HOISTED */
+);
+
+const _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+  value: "percent"
+}, " Percentage ", -1
+/* HOISTED */
+);
+
+const _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+  value: "fixed_amount"
+}, " Fixed Discount ", -1
+/* HOISTED */
+);
+
+const _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Percent or Amount "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("i", null, "default: 0")], -1
+/* HOISTED */
+);
+
+const _hoisted_21 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Minimum Spend "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("i", null, "default: 0")], -1
+/* HOISTED */
+);
+
+const _hoisted_23 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
+  for: ""
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])(" Capped At "), /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("i", null, "default: 0")], -1
+/* HOISTED */
+);
+
+const _hoisted_24 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("label", {
   for: ""
 }, " Is Available ", -1
 /* HOISTED */
 );
 
-const _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+const _hoisted_25 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createTextVNode"])();
+
+const _hoisted_26 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
   value: "yes"
 }, " Yes ", -1
 /* HOISTED */
 );
 
-const _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
+const _hoisted_27 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("option", {
   value: "no"
 }, " No ", -1
 /* HOISTED */
 );
 
-const _hoisted_15 = {
+const _hoisted_28 = {
   class: "modal-footer"
 };
 
-const _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+const _hoisted_29 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
   type: "button",
   class: "btn btn-secondary",
   "data-dismiss": "modal"
@@ -16075,41 +16248,92 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "alert alert-primary"
   }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.saveMessage), 513
   /* TEXT, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.saveMessage]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", _hoisted_7, [_hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.saveMessage]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("form", _hoisted_7, [_hoisted_8, _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.voucher_code), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.voucher_code]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $setup.voucher.code = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.code]]), _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.code]]), _hoisted_10, _hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.voucher_name), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.voucher_name]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.voucher.name = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.name]]), _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("textarea", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.name]]), _hoisted_12, _hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.voucher_description), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.voucher_description]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("textarea", {
     class: "form-control",
     cols: "30",
     rows: "10",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $setup.voucher.description = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.description]]), _hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.description]]), _hoisted_14, _hoisted_15, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.count), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.count]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     type: "text",
     class: "form-control",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $setup.voucher.count = $event)
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.count]]), _hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.count]]), _hoisted_16, _hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.type_of_voucher), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.type_of_voucher]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
     class: "form-control",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $setup.voucher.is_available = $event)
-  }, [_hoisted_13, _hoisted_14], 512
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $setup.voucher.type_of_voucher = $event)
+  }, [_hoisted_18, _hoisted_19], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.voucher.is_available]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.voucher.type_of_voucher]]), _hoisted_20, _hoisted_21, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.percent_or_amount), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.percent_or_amount]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "form-control",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => $setup.voucher.percent_or_amount = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.percent_or_amount]]), _hoisted_22, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "form-control",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $setup.voucher.minimum_spend = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.minimum_spend]]), _hoisted_23, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
+    type: "text",
+    class: "form-control",
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $setup.voucher.capped_at = $event)
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher.capped_at]]), _hoisted_24, _hoisted_25, Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", {
+    class: "text-danger"
+  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.inputErr.is_available), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.inputErr.is_available]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+    class: "form-control",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => $setup.voucher.is_available = $event)
+  }, [_hoisted_26, _hoisted_27], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.voucher.is_available]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
     class: "btn btn-primary",
     type: "button",
-    onClick: _cache[6] || (_cache[6] = $event => $setup.addVoucher())
-  }, " Add "), _hoisted_16])])])])]);
+    onClick: _cache[10] || (_cache[10] = $event => $setup.addVoucher())
+  }, " Add "), _hoisted_29])])])])]);
 }
 
 /***/ }),
@@ -60451,7 +60675,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup"} */ "./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\"}");
+/* harmony import */ var _FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup_clearMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup","clearMessage":"setup","inputErr":"setup"} */ "./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\",\"clearMessage\":\"setup\",\"inputErr\":\"setup\"}");
 /* harmony import */ var _FormUpdateVoucher_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormUpdateVoucher.vue?vue&type=script&lang=js */ "./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _FormUpdateVoucher_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormUpdateVoucher.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=style&index=0&lang=css");
 
@@ -60459,7 +60683,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_FormUpdateVoucher_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_FormUpdateVoucher_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup_clearMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -60502,17 +60726,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\"}":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup"} ***!
-  \*********************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\",\"clearMessage\":\"setup\",\"inputErr\":\"setup\"}":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup","clearMessage":"setup","inputErr":"setup"} ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup_clearMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={"singleVoucher":"setup","updateMessage":"setup","updateVoucher":"setup","clearMessage":"setup","inputErr":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/FormUpdateVoucher.vue?vue&type=template&id=4477fb7c&bindings={\"singleVoucher\":\"setup\",\"updateMessage\":\"setup\",\"updateVoucher\":\"setup\",\"clearMessage\":\"setup\",\"inputErr\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_FormUpdateVoucher_vue_vue_type_template_id_4477fb7c_bindings_singleVoucher_setup_updateMessage_setup_updateVoucher_setup_clearMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -60527,7 +60751,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup"} */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\"}");
+/* harmony import */ var _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}");
 /* harmony import */ var _ListVouchers_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=script&lang=js */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _ListVouchers_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=style&index=0&lang=css");
 
@@ -60535,7 +60759,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_ListVouchers_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_ListVouchers_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -60578,17 +60802,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\"}":
-/*!************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup"} ***!
-  \************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} ***!
+  \************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -60603,7 +60827,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup"} */ "./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\"}");
+/* harmony import */ var _formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup","inputErr":"setup"} */ "./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\",\"inputErr\":\"setup\"}");
 /* harmony import */ var _formVoucher_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formVoucher.vue?vue&type=script&lang=js */ "./resources/js/components/Vouchers/formVoucher.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _formVoucher_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./formVoucher.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Vouchers/formVoucher.vue?vue&type=style&index=0&lang=css");
 
@@ -60611,7 +60835,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_formVoucher_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_formVoucher_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -60654,17 +60878,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\"}":
-/*!****************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup"} ***!
-  \****************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\",\"inputErr\":\"setup\"}":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup","inputErr":"setup"} ***!
+  \***********************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={"voucher":"setup","addVoucher":"setup","saveMessage":"setup","inputErr":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/formVoucher.vue?vue&type=template&id=43cfeaaa&bindings={\"voucher\":\"setup\",\"addVoucher\":\"setup\",\"saveMessage\":\"setup\",\"inputErr\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_formVoucher_vue_vue_type_template_id_43cfeaaa_bindings_voucher_setup_addVoucher_setup_saveMessage_setup_inputErr_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -61401,7 +61625,8 @@ const state = {
   listVoucher: [],
   message: '',
   errorMessage: '',
-  singleVoucher: []
+  singleVoucher: [],
+  inputError: []
 };
 const getters = {};
 const actions = {
@@ -61410,9 +61635,10 @@ const actions = {
     dispatch
   }, voucher) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://127.0.0.1:8000/api/voucher', voucher).then(response => {
-      commit('SET_SAVE_UPDATE_VOUCHER_MESSAGE', response.data);
+      dispatch('fetchListOfVoucher');
+      commit('SET_MESSAGE', response.data);
     }).catch(error => {
-      commit('SET_ERR_MESSAGE', error);
+      commit('SET_INPUT_ERR_MESSAGE', error.response.data.errors);
     });
   },
 
@@ -61440,21 +61666,41 @@ const actions = {
     commit,
     dispatch
   }, singleVoucher) {
-    console.log(singleVoucher);
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(`http://127.0.0.1:8000/api/voucher/${singleVoucher._value['voucher_id']}`, singleVoucher._value).then(response => {
       dispatch('fetchListOfVoucher');
-      commit('SET_SAVE_UPDATE_VOUCHER_MESSAGE', response.data);
+      dispatch('cleanMessage');
+      commit('SET_MESSAGE', response.data);
+    }).catch(error => {
+      commit('SET_INPUT_ERR_MESSAGE', error.response.data.errors);
+    });
+  },
+
+  async removeVoucherAction({
+    commit,
+    dispatch
+  }, voucher_id) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`http://127.0.0.1:8000/api/voucher/${voucher_id}`).then(response => {
+      dispatch('fetchListOfVoucher');
+      commit('SET_MESSAGE', response.data);
     }).catch(error => {
       commit('SET_ERR_MESSAGE', error);
     });
+  },
+
+  cleanMessage({
+    commit
+  }) {
+    commit('SET_MESSAGE', '');
+    commit('SET_INPUT_ERR_MESSAGE', '');
   }
 
 };
 const mutations = {
   SET_LIST_VOUCHER: (state, response) => state.listVoucher = response,
-  SET_SAVE_UPDATE_VOUCHER_MESSAGE: (state, message) => state.message = message,
+  SET_MESSAGE: (state, message) => state.message = message,
   SET_ERR_MESSAGE: (state, error) => state.errorMessage = error,
-  SET_SINGLE_VOUCHER: (state, response) => state.singleVoucher = response
+  SET_SINGLE_VOUCHER: (state, response) => state.singleVoucher = response,
+  SET_INPUT_ERR_MESSAGE: (state, response) => state.inputError = response
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,
