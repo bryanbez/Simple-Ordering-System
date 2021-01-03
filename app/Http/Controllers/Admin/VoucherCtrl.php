@@ -45,6 +45,10 @@ class VoucherCtrl extends Controller
         return response()->json($this->voucher->showSingleVoucher($id));
     }
 
+    public function showVoucherAvailabilityOrCount(Request $request) {
+        return response()->json($this->voucher->showVoucherAvailability($request));
+    }
+
     public function edit($id)
     {
         //

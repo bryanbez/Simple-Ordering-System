@@ -47,3 +47,5 @@ Route::put('archive/restore/category/{id}', 'Admin\ArchiveCtrl@restoreArchivedCa
 
 Route::delete('archive/delete/product/{id}', 'Admin\ArchiveCtrl@deleteArchivedProduct');
 Route::delete('archive/delete/category/{id}', 'Admin\ArchiveCtrl@deleteArchivedCategory');
+
+Route::post('voucher/to_use', 'Admin\VoucherCtrl@showVoucherAvailabilityOrCount');

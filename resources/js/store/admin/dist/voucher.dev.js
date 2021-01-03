@@ -14,7 +14,8 @@ var state = {
   message: '',
   errorMessage: '',
   singleVoucher: [],
-  inputError: []
+  inputError: [],
+  voucherAvailMessage: ''
 };
 var getters = {};
 var actions = {
@@ -40,7 +41,7 @@ var actions = {
       }
     });
   },
-  fetchListOfVoucher: function fetchListOfVoucher(_ref2) {
+  fetchListOfVoucher: function fetchListOfVoucher(_ref2, url) {
     var commit;
     return regeneratorRuntime.async(function fetchListOfVoucher$(_context2) {
       while (1) {
@@ -48,11 +49,19 @@ var actions = {
           case 0:
             commit = _ref2.commit;
 
-            _axios["default"].get('http://127.0.0.1:8000/api/voucher').then(function (response) {
-              commit('SET_LIST_VOUCHER', response.data);
-            })["catch"](function (error) {
-              commit('SET_ERR_MESSAGE', error);
-            });
+            if (url) {
+              _axios["default"].get(url).then(function (response) {
+                commit('SET_LIST_VOUCHER', response.data);
+              })["catch"](function (error) {
+                commit('SET_ERR_MESSAGE', error);
+              });
+            } else {
+              _axios["default"].get('http://127.0.0.1:8000/api/voucher').then(function (response) {
+                commit('SET_LIST_VOUCHER', response.data);
+              })["catch"](function (error) {
+                commit('SET_ERR_MESSAGE', error);
+              });
+            }
 
           case 2:
           case "end":
@@ -148,6 +157,9 @@ var mutations = {
   },
   SET_INPUT_ERR_MESSAGE: function SET_INPUT_ERR_MESSAGE(state, response) {
     return state.inputError = response;
+  },
+  SET_VOUCHER_AVAIL_MESSAGE: function SET_VOUCHER_AVAIL_MESSAGE(state, message) {
+    return state.voucherAvailMessage = message;
   }
 };
 var _default = {

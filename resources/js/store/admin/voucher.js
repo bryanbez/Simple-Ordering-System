@@ -6,7 +6,8 @@ const state = {
     message: '',
     errorMessage: '',
     singleVoucher: [],
-    inputError: []
+    inputError: [],
+    voucherAvailMessage: ''
 };
 
 const getters = {
@@ -24,13 +25,24 @@ const actions = {
         });
     },
 
-    async fetchListOfVoucher({ commit }) {
-        axios.get('http://127.0.0.1:8000/api/voucher')
-        .then(response => {
-            commit('SET_LIST_VOUCHER', response.data);
-        }).catch(error => { 
-            commit('SET_ERR_MESSAGE', error)
+    async fetchListOfVoucher({ commit }, url) {
+        if (url) {
+            axios.get(url)
+            .then(response => {
+                commit('SET_LIST_VOUCHER', response.data);
+            }).catch(error => { 
+                commit('SET_ERR_MESSAGE', error)
         });
+        }
+        else {
+            axios.get('http://127.0.0.1:8000/api/voucher')
+                .then(response => {
+                    commit('SET_LIST_VOUCHER', response.data);
+                }).catch(error => { 
+                    commit('SET_ERR_MESSAGE', error)
+            });
+        }
+    
     },
 
     async fetchListOfSpecificVoucher({ commit }, voucher_id) {
@@ -40,7 +52,7 @@ const actions = {
         }).catch(error => { 
             commit('SET_ERR_MESSAGE', error)
         });
-    },
+    }, 
 
     async updateVoucherAction({ commit, dispatch }, singleVoucher) {
         axios.put(`http://127.0.0.1:8000/api/voucher/${singleVoucher._value['voucher_id']}`, singleVoucher._value)
@@ -79,7 +91,8 @@ const mutations = {
     SET_MESSAGE: (state, message) => state.message = message,
     SET_ERR_MESSAGE: (state, error) => state.errorMessage = error,
     SET_SINGLE_VOUCHER: (state, response) => state.singleVoucher = response,
-    SET_INPUT_ERR_MESSAGE: (state, response) => state.inputError = response
+    SET_INPUT_ERR_MESSAGE: (state, response) => state.inputError = response,
+    SET_VOUCHER_AVAIL_MESSAGE: (state, message) => state.voucherAvailMessage = message
 
 };
 

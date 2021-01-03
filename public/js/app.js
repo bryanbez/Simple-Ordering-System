@@ -11898,25 +11898,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   setup() {
     const storeModule = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["useStore"])();
-    const checkoutList = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.checkoutList);
-    const total_payment = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.total_payment);
-    const profileInfoOfuser = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.profile.profileOfUser);
-    const listOfCourier = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.courier.courierList);
-    const courierChoice = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])('');
-    const payment_method = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])('');
-    const enablePlaceOrder = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.enableButtonPlaceOrder);
+    let checkoutList = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.checkoutList);
+    let total_payment = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.total_payment);
+    let profileInfoOfuser = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.profile.profileOfUser);
+    let listOfCourier = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.courier.courierList);
+    let deliveryFee = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.deliveryFee);
+    let courierChoice = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])('');
+    let payment_method = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])('');
+    let voucher_code = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])('');
+    let enablePlaceOrder = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.enableButtonPlaceOrder);
+    let voucherMessage = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.voucherMessage);
+    let total_payment_without_discount = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.withoutDiscount);
+    let deductionPrice = Object(vue__WEBPACK_IMPORTED_MODULE_1__["computed"])(() => storeModule.state.checkout.deductionAmount);
+    Object(vue__WEBPACK_IMPORTED_MODULE_1__["watch"])(voucher_code, () => {
+      let voucherAndInitialPayment = {
+        'total_payment': total_payment_without_discount.value,
+        'voucher_code_to_use': voucher_code.value
+      };
+      storeModule.dispatch('verifyVoucherAvailability', voucherAndInitialPayment);
+    });
 
     function setCourier() {
       storeModule.dispatch('setCourierChoiceAction', courierChoice.value);
     }
 
+    function setPaymentMethod() {
+      storeModule.dispatch('setPaymentMethodAction', payment_method.value);
+    }
+
     function placeOrder() {
-      var orderInfo = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])({
+      let orderInfo = Object(vue__WEBPACK_IMPORTED_MODULE_1__["ref"])({
         'productToCheckout': checkoutList,
         'courier': courierChoice,
         'total_payment': total_payment,
         'user_id': profileInfoOfuser,
-        'payment_method': payment_method
+        'payment_method': payment_method.value
       });
       storeModule.dispatch('listAllOrderDetailsToCheckout', orderInfo.value);
     }
@@ -11924,6 +11940,7 @@ __webpack_require__.r(__webpack_exports__);
     Object(vue__WEBPACK_IMPORTED_MODULE_1__["onMounted"])(() => {
       storeModule.dispatch('profile/fetchProfile');
       storeModule.dispatch('fetchCourierList');
+      storeModule.dispatch('checkIfNameAndAddressProvide');
     });
     return {
       checkoutList,
@@ -11934,7 +11951,14 @@ __webpack_require__.r(__webpack_exports__);
       courierChoice,
       enablePlaceOrder,
       placeOrder,
-      payment_method
+      payment_method,
+      voucher_code,
+      // verifyVoucherAvailability,
+      voucherMessage,
+      total_payment_without_discount,
+      deliveryFee,
+      deductionPrice,
+      setPaymentMethod
     };
   }
 
@@ -12650,13 +12674,18 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
 
+    function paginateVoucherList(url) {
+      storeModule.dispatch('fetchListOfVoucher', url);
+    }
+
     Object(vue__WEBPACK_IMPORTED_MODULE_3__["onMounted"])(() => {
       storeModule.dispatch('fetchListOfVoucher');
     });
     return {
       listOfVouchers,
       fetchSpecificVoucher,
-      removeVoucher
+      removeVoucher,
+      paginateVoucherList
     };
   }
 
@@ -13643,10 +13672,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\"}":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup"} ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\",\"voucher_code\":\"setup\",\"voucherMessage\":\"setup\",\"total_payment_without_discount\":\"setup\",\"deliveryFee\":\"setup\",\"deductionPrice\":\"setup\",\"setPaymentMethod\":\"setup\"}":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup","voucher_code":"setup","voucherMessage":"setup","total_payment_without_discount":"setup","deliveryFee":"setup","deductionPrice":"setup","setPaymentMethod":"setup"} ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -13744,13 +13773,13 @@ const _hoisted_25 = {
 };
 
 const _hoisted_26 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
-  class: "col col-lg-9"
-}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Subtotal ")], -1
+  class: "col col-lg-5"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Courier ")], -1
 /* HOISTED */
 );
 
 const _hoisted_27 = {
-  class: "col col-lg-3"
+  class: "col col-lg-7"
 };
 const _hoisted_28 = {
   class: "card"
@@ -13761,15 +13790,19 @@ const _hoisted_29 = {
 
 const _hoisted_30 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "col col-lg-5"
-}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Courier ")], -1
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Voucher Code (if any) ")], -1
 /* HOISTED */
 );
 
 const _hoisted_31 = {
-  class: "col col-lg-7"
+  class: "col col-lg-5"
 };
 
-const _hoisted_32 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createStaticVNode"])("<div class=\"card\"><div class=\"row\"><div class=\"col col-lg-5\"><h3> Discount Code (if any) </h3></div><div class=\"col col-lg-5\"><h3><input class=\"form-control\" type=\"text\" placeholder=\"Discount Code \"></h3></div><div class=\"col col-lg-2\"><h3><button class=\"btn btn-secondary\"> Apply Code </button></h3></div></div></div>", 1);
+const _hoisted_32 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "col col-lg-2"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createCommentVNode"])(" <h3> <button class=\"btn btn-secondary\" @click=\"verifyVoucherAvailability()\"> Apply Code </button> </h3> ")], -1
+/* HOISTED */
+);
 
 const _hoisted_33 = {
   class: "card"
@@ -13803,7 +13836,7 @@ const _hoisted_39 = {
 
 const _hoisted_40 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
   class: "col col-lg-8"
-}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Total Payment ")], -1
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, " Subtotal ")], -1
 /* HOISTED */
 );
 
@@ -13811,9 +13844,57 @@ const _hoisted_41 = {
   class: "col col-lg-2"
 };
 const _hoisted_42 = {
-  class: "red-text"
+  class: "text-danger"
 };
 const _hoisted_43 = {
+  class: "row"
+};
+
+const _hoisted_44 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "col col-lg-8"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, " Courier Price ")], -1
+/* HOISTED */
+);
+
+const _hoisted_45 = {
+  class: "col col-lg-2"
+};
+const _hoisted_46 = {
+  class: "text-danger"
+};
+const _hoisted_47 = {
+  class: "row"
+};
+
+const _hoisted_48 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "col col-lg-8"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", null, " Voucher Deduction Amount ")], -1
+/* HOISTED */
+);
+
+const _hoisted_49 = {
+  class: "col col-lg-2"
+};
+const _hoisted_50 = {
+  class: "text-danger"
+};
+const _hoisted_51 = {
+  class: "row"
+};
+
+const _hoisted_52 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", {
+  class: "col col-lg-8"
+}, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " Total Payment ")], -1
+/* HOISTED */
+);
+
+const _hoisted_53 = {
+  class: "col col-lg-2"
+};
+const _hoisted_54 = {
+  class: "text-danger font-weight-bold"
+};
+const _hoisted_55 = {
   class: "col col-lg-2 btn"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -13848,9 +13929,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_20, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_21, [_hoisted_22, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_23, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h5", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.profileInfoOfuser.address), 1
   /* TEXT */
-  )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_24, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_25, [_hoisted_26, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.checkoutList.subtotal), 1
-  /* TEXT */
-  )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_29, [_hoisted_30, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_31, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+  )])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_24, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_25, [_hoisted_26, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
     class: "form-control",
     onChange: _cache[1] || (_cache[1] = $event => $setup.setCourier()),
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.courierChoice = $event)
@@ -13865,16 +13944,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   ))], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.courierChoice]])])])])]), _hoisted_32, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_33, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_34, [_hoisted_35, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_36, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.courierChoice]])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_29, [_hoisted_30, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_31, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("input", {
     class: "form-control",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $setup.payment_method = $event)
-  }, [_hoisted_37], 512
+    type: "text",
+    placeholder: "Discount Code",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $setup.voucher_code = $event)
+  }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.payment_method]])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_38, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_39, [_hoisted_40, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_41, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", _hoisted_42, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.total_payment), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelText"], $setup.voucher_code]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("span", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.voucherMessage), 513
+  /* TEXT, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vShow"], $setup.voucherMessage]])]), _hoisted_32])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_33, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_34, [_hoisted_35, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_36, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["withDirectives"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("select", {
+    class: "form-control",
+    onChange: _cache[4] || (_cache[4] = $event => $setup.setPaymentMethod()),
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $setup.payment_method = $event)
+  }, [_hoisted_37], 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__["vModelSelect"], $setup.payment_method]])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_38, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_39, [_hoisted_40, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_41, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", _hoisted_42, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.checkoutList.subtotal), 1
   /* TEXT */
-  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_43, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_43, [_hoisted_44, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_45, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", _hoisted_46, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.deliveryFee), 1
+  /* TEXT */
+  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_47, [_hoisted_48, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_49, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("p", _hoisted_50, " - ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.deductionPrice), 1
+  /* TEXT */
+  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_51, [_hoisted_52, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_53, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", _hoisted_54, " ₱ " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.total_payment), 1
+  /* TEXT */
+  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_55, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
     class: "btn btn-primary",
-    onClick: _cache[4] || (_cache[4] = $event => $setup.placeOrder()),
+    onClick: _cache[6] || (_cache[6] = $event => $setup.placeOrder()),
     disabled: $setup.enablePlaceOrder == true
   }, " Place Order", 8
   /* PROPS */
@@ -16014,10 +16109,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\",\"paginateVoucherList\":\"setup\"}":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--26-0!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup","paginateVoucherList":"setup"} ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -16027,7 +16122,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
 
 
-const _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("h3", null, " List Vouchers ", -1
+const _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("br", null, null, -1
 /* HOISTED */
 );
 
@@ -16041,12 +16136,18 @@ const _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__["createV
 /* HOISTED */
 );
 
+const _hoisted_4 = {
+  class: "pagination"
+};
+const _hoisted_5 = {
+  class: "btn btn-secondary disabled mr-2"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ModalAddVoucher = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("ModalAddVoucher");
 
   const _component_ModalUpdateVoucher = Object(vue__WEBPACK_IMPORTED_MODULE_0__["resolveComponent"])("ModalUpdateVoucher");
 
-  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [_hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalAddVoucher), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_2, [_hoisted_3, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.listOfVouchers, singleVoucher => {
+  return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalAddVoucher), _hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("table", _hoisted_2, [_hoisted_3, (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])(vue__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderList"])($setup.listOfVouchers.data, singleVoucher => {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("tr", {
       key: singleVoucher.voucher_id
     }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("td", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])(singleVoucher.voucher_code), 1
@@ -16075,7 +16176,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["onClick"])])]);
   }), 128
   /* KEYED_FRAGMENT */
-  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalUpdateVoucher)])]);
+  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_ModalUpdateVoucher)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("div", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    class: "btn btn-secondary mr-2",
+    disabled: $setup.listOfVouchers.prev_page_url == null,
+    onClick: _cache[1] || (_cache[1] = $event => $setup.paginateVoucherList($setup.listOfVouchers.prev_page_url))
+  }, " Previous ", 8
+  /* PROPS */
+  , ["disabled"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", _hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.listOfVouchers.current_page) + " of " + Object(vue__WEBPACK_IMPORTED_MODULE_0__["toDisplayString"])($setup.listOfVouchers.last_page), 1
+  /* TEXT */
+  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])("button", {
+    class: "btn btn-secondary",
+    disabled: $setup.listOfVouchers.next_page_url == null,
+    onClick: _cache[2] || (_cache[2] = $event => $setup.paginateVoucherList($setup.listOfVouchers.next_page_url))
+  }, " Next ", 8
+  /* PROPS */
+  , ["disabled"])])]);
 }
 
 /***/ }),
@@ -59535,7 +59650,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup"} */ "./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\"}");
+/* harmony import */ var _Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup_voucher_code_setup_voucherMessage_setup_total_payment_without_discount_setup_deliveryFee_setup_deductionPrice_setup_setPaymentMethod_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup","voucher_code":"setup","voucherMessage":"setup","total_payment_without_discount":"setup","deliveryFee":"setup","deductionPrice":"setup","setPaymentMethod":"setup"} */ "./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\",\"voucher_code\":\"setup\",\"voucherMessage\":\"setup\",\"total_payment_without_discount\":\"setup\",\"deliveryFee\":\"setup\",\"deductionPrice\":\"setup\",\"setPaymentMethod\":\"setup\"}");
 /* harmony import */ var _Checkout_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Checkout.vue?vue&type=script&lang=js */ "./resources/js/components/Checkout/Checkout.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _Checkout_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Checkout.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Checkout/Checkout.vue?vue&type=style&index=0&lang=css");
 
@@ -59543,7 +59658,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_Checkout_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_Checkout_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup_voucher_code_setup_voucherMessage_setup_total_payment_without_discount_setup_deliveryFee_setup_deductionPrice_setup_setPaymentMethod_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -59586,17 +59701,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\"}":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup"} ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\",\"voucher_code\":\"setup\",\"voucherMessage\":\"setup\",\"total_payment_without_discount\":\"setup\",\"deliveryFee\":\"setup\",\"deductionPrice\":\"setup\",\"setPaymentMethod\":\"setup\"}":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup","voucher_code":"setup","voucherMessage":"setup","total_payment_without_discount":"setup","deliveryFee":"setup","deductionPrice":"setup","setPaymentMethod":"setup"} ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup_voucher_code_setup_voucherMessage_setup_total_payment_without_discount_setup_deliveryFee_setup_deductionPrice_setup_setPaymentMethod_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./Checkout.vue?vue&type=template&id=1f1c81b4&bindings={"checkoutList":"setup","total_payment":"setup","profileInfoOfuser":"setup","listOfCourier":"setup","setCourier":"setup","courierChoice":"setup","enablePlaceOrder":"setup","placeOrder":"setup","payment_method":"setup","voucher_code":"setup","voucherMessage":"setup","total_payment_without_discount":"setup","deliveryFee":"setup","deductionPrice":"setup","setPaymentMethod":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Checkout/Checkout.vue?vue&type=template&id=1f1c81b4&bindings={\"checkoutList\":\"setup\",\"total_payment\":\"setup\",\"profileInfoOfuser\":\"setup\",\"listOfCourier\":\"setup\",\"setCourier\":\"setup\",\"courierChoice\":\"setup\",\"enablePlaceOrder\":\"setup\",\"placeOrder\":\"setup\",\"payment_method\":\"setup\",\"voucher_code\":\"setup\",\"voucherMessage\":\"setup\",\"total_payment_without_discount\":\"setup\",\"deliveryFee\":\"setup\",\"deductionPrice\":\"setup\",\"setPaymentMethod\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_Checkout_vue_vue_type_template_id_1f1c81b4_bindings_checkoutList_setup_total_payment_setup_profileInfoOfuser_setup_listOfCourier_setup_setCourier_setup_courierChoice_setup_enablePlaceOrder_setup_placeOrder_setup_payment_method_setup_voucher_code_setup_voucherMessage_setup_total_payment_without_discount_setup_deliveryFee_setup_deductionPrice_setup_setPaymentMethod_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -60751,7 +60866,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}");
+/* harmony import */ var _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup_paginateVoucherList_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup","paginateVoucherList":"setup"} */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\",\"paginateVoucherList\":\"setup\"}");
 /* harmony import */ var _ListVouchers_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=script&lang=js */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport *//* harmony import */ var _ListVouchers_vue_vue_type_style_index_0_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ListVouchers.vue?vue&type=style&index=0&lang=css */ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=style&index=0&lang=css");
 
@@ -60759,7 +60874,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_ListVouchers_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
+_ListVouchers_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup_paginateVoucherList_setup___WEBPACK_IMPORTED_MODULE_0__["render"]
 /* hot reload */
 if (false) {}
 
@@ -60802,17 +60917,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}":
-/*!************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} ***!
-  \************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\",\"paginateVoucherList\":\"setup\"}":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup","paginateVoucherList":"setup"} ***!
+  \******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup_paginateVoucherList_setup___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../../../node_modules/vue-loader/dist??ref--26-0!./ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={"listOfVouchers":"setup","fetchSpecificVoucher":"setup","removeVoucher":"setup","paginateVoucherList":"setup"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/components/Vouchers/ListVouchers.vue?vue&type=template&id=4c12dcd2&bindings={\"listOfVouchers\":\"setup\",\"fetchSpecificVoucher\":\"setup\",\"removeVoucher\":\"setup\",\"paginateVoucherList\":\"setup\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_26_0_ListVouchers_vue_vue_type_template_id_4c12dcd2_bindings_listOfVouchers_setup_fetchSpecificVoucher_setup_removeVoucher_setup_paginateVoucherList_setup___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 
@@ -61626,7 +61741,8 @@ const state = {
   message: '',
   errorMessage: '',
   singleVoucher: [],
-  inputError: []
+  inputError: [],
+  voucherAvailMessage: ''
 };
 const getters = {};
 const actions = {
@@ -61644,12 +61760,20 @@ const actions = {
 
   async fetchListOfVoucher({
     commit
-  }) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://127.0.0.1:8000/api/voucher').then(response => {
-      commit('SET_LIST_VOUCHER', response.data);
-    }).catch(error => {
-      commit('SET_ERR_MESSAGE', error);
-    });
+  }, url) {
+    if (url) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url).then(response => {
+        commit('SET_LIST_VOUCHER', response.data);
+      }).catch(error => {
+        commit('SET_ERR_MESSAGE', error);
+      });
+    } else {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://127.0.0.1:8000/api/voucher').then(response => {
+        commit('SET_LIST_VOUCHER', response.data);
+      }).catch(error => {
+        commit('SET_ERR_MESSAGE', error);
+      });
+    }
   },
 
   async fetchListOfSpecificVoucher({
@@ -61700,7 +61824,8 @@ const mutations = {
   SET_MESSAGE: (state, message) => state.message = message,
   SET_ERR_MESSAGE: (state, error) => state.errorMessage = error,
   SET_SINGLE_VOUCHER: (state, response) => state.singleVoucher = response,
-  SET_INPUT_ERR_MESSAGE: (state, response) => state.inputError = response
+  SET_INPUT_ERR_MESSAGE: (state, response) => state.inputError = response,
+  SET_VOUCHER_AVAIL_MESSAGE: (state, message) => state.voucherAvailMessage = message
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,
@@ -62069,8 +62194,14 @@ __webpack_require__.r(__webpack_exports__);
 const state = {
   checkoutList: [],
   subtotal: 0,
+  courier_name: '',
   deliveryFee: 0,
+  withoutDiscount: 0,
+  deductionAmount: 0,
+  total_discounted_payment: 0,
   total_payment: 0,
+  voucherMessage: '',
+  payment_method: '',
   enableButtonPlaceOrder: true,
   isNameAndAddressProvided: false
 };
@@ -62083,7 +62214,8 @@ const actions = {
   },
 
   setSubTotalAction({
-    commit
+    commit,
+    dispatch
   }, subtotal) {
     commit('SET_SUBTOTAL', subtotal);
     commit('SET_TOTAL_PAYMENT');
@@ -62094,25 +62226,44 @@ const actions = {
     dispatch
   }, courier_id) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/courier/${courier_id}`).then(response => {
-      dispatch('checkIfNameAndAddressProvide');
       commit('SET_DELIVERY_FEE', response.data.courier_base_price);
+      commit('SET_COURIER_CHOICE', response.data.courier_name);
       commit('SET_TOTAL_PAYMENT');
+      dispatch('checkIfPaymentMethodProvide');
     }).then(error => {//commit('SET_COURIER_MSG', error)
     });
   },
 
-  checkIfNameAndAddressProvide({
+  setPaymentMethodAction({
     commit,
     dispatch
+  }, payment_method) {
+    commit('SET_PAYMENT_METHOD', payment_method);
+    dispatch('checkIfPaymentMethodProvide');
+  },
+
+  checkIfNameAndAddressProvide({
+    commit
   }) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`http://127.0.0.1:8000/api/profile/${JSON.parse(localStorage.getItem('user_id'))}`).then(response => {
       if (response.data['address'] == null || response.data['first_name'] == null || response.data['last_name'] == null) {
-        commit('SET_BUTTON_PLACE_ORER', true);
+        commit('IS_NAME_AND_ADDRESS_PROVIDE', false);
       } else {
-        commit('SET_BUTTON_PLACE_ORER', false);
+        commit('IS_NAME_AND_ADDRESS_PROVIDE', true);
       }
     }).catch(error => {//commit('SET_MSG',  error.response.data.errors)
     });
+  },
+
+  checkIfPaymentMethodProvide({
+    commit
+  }) {
+    if (state.payment_method != '' && state.isNameAndAddressProvided == true && state.courier_name != '') {
+      console.log('Completed');
+      commit('SET_BUTTON_PLACE_ORDER', false);
+    } else {
+      commit('SET_BUTTON_PLACE_ORDER', true);
+    }
   },
 
   listAllOrderDetailsToCheckout({
@@ -62123,24 +62274,47 @@ const actions = {
       _router_index__WEBPACK_IMPORTED_MODULE_1__["default"].push('/order');
     }).then(error => {//commit('SET_COURIER_MSG', error)
     });
+  },
+
+  async verifyVoucherAvailability({
+    commit
+  }, voucher_info_to_pass) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(`http://127.0.0.1:8000/api/voucher/to_use/`, voucher_info_to_pass).then(response => {
+      commit('SET_VOUCHER_AVAIL_MESSAGE', response.data['message']);
+      commit('SET_TOTAL_DISCOUNTED_PAYMENT', response.data['discount_price']);
+      commit('SET_DEDUCTION_AMOUNT', response.data['deduction']);
+    }).catch(error => {
+      commit('SET_ERR_MESSAGE', error);
+    });
   }
 
 };
 const mutations = {
   SET_CHECKOUT_LIST: (state, response) => state.checkoutList = response,
   SET_SUBTOTAL: (state, response) => state.subtotal = response,
-  SET_BUTTON_PLACE_ORER: (state, response) => state.enableButtonPlaceOrder = response,
-  SET_DELIVERY_FEE: (state, delivery_fee) => {
-    state.deliveryFee = delivery_fee;
-  },
+  SET_BUTTON_PLACE_ORDER: (state, response) => state.enableButtonPlaceOrder = response,
+  SET_COURIER_CHOICE: (state, response) => state.courier_name = response,
+  SET_DELIVERY_FEE: (state, delivery_fee) => state.deliveryFee = delivery_fee,
+  SET_PAYMENT_METHOD: (state, payment_method) => state.payment_method = payment_method,
   SET_TOTAL_PAYMENT: state => {
     if (state.deliveryFee == 0) {
       state.total_payment = state.subtotal;
+      state.withoutDiscount = state.subtotal;
     }
 
     state.total_payment = state.subtotal + state.deliveryFee;
-    return state.total_payment;
-  }
+    state.withoutDiscount = state.subtotal + state.deliveryFee;
+  },
+  SET_TOTAL_DISCOUNTED_PAYMENT: (state, discounted) => {
+    if (state.deductionAmount == 0) {
+      state.total_payment = state.withoutDiscount;
+    }
+
+    state.total_payment = discounted;
+  },
+  SET_VOUCHER_AVAIL_MESSAGE: (state, message) => state.voucherMessage = message,
+  SET_DEDUCTION_AMOUNT: (state, deduction) => state.deductionAmount = deduction,
+  IS_NAME_AND_ADDRESS_PROVIDE: (state, boolean) => state.isNameAndAddressProvided = boolean
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state,
